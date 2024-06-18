@@ -15,7 +15,7 @@ export default {
     </div>
     <div class="right">
       <h2>Sei un ristoratore?</h2>
-      <a href="#">Registrati</a>
+      <a href="http://127.0.0.1:8000/register">Registrati</a>
     </div>
   </div>
   <h1>I am the home page</h1>

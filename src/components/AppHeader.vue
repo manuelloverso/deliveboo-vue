@@ -15,8 +15,8 @@ export default {
         </a>
       </div>
       <ul class="user-links list-unstyled d-flex gap-4 m-0">
-        <li><a href="#">Login</a></li>
-        <li><a href="#">Registrati</a></li>
+        <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+        <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
       </ul>
     </nav>
   </header>
