@@ -1,1 +1,11 @@
 @import "bootstrap/scss/bootstrap";
+
+:root {
+  --text-dark: #343a40;
+  --bg-header: #fcc419;
+  --accent: #fd7e14;
+}
+
+body {
+  color: var(--text-dark);
+}
