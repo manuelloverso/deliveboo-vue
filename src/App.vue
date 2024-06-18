@@ -18,7 +18,9 @@ export default {
   <AppHeader />
 
   <!-- Site Main -->
-  <main></main>
+  <main>
+    <RouterView />
+  </main>
 
   <!-- Site Footer -->
   <AppFooter />
