@@ -47,7 +47,7 @@ export default {
           <h2>{{ restaurant.restaurant_name }}</h2>
           <p><strong>Indirizzo: </strong>{{ restaurant.address }}</p>
           <p><strong>Email: </strong>{{ restaurant.restaurant_email }}</p>
-          <p>
+          <p v-if="restaurant.phone_number != null">
             <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
           </p>
         </div>
@@ -92,7 +92,7 @@ export default {
                   <div>
                     <h3 class="plate-name">{{ plate.name }}</h3>
                     <p>{{ plate.description }}</p>
-                    <p><strong>Prezzo: </strong>{{ plate.price }}</p>
+                    <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
                   </div>
                   <button class="add-plate">
                     <i class="fa-solid fa-plus"></i>
