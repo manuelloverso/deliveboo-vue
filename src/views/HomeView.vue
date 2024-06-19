@@ -1,7 +1,14 @@
 <script>
 import { store } from "../store.js";
+import RestaurantCard from '../components/RestaurantCard.vue';
 export default {
+
   name: "HomeView",
+
+  components: {
+    RestaurantCard
+  },
+
   data() {
     return {
       store,
@@ -72,7 +79,7 @@ export default {
 
   <div class="container">
     <!-- Types Filter -->
-    <h2>Types</h2>
+    <h2>Cosa vuoi mangiare oggi?</h2>
     <div class="types-container">
       <div
         :id="singleType.name"
@@ -87,17 +94,13 @@ export default {
     </div>
 
     <!-- Restaurants -->
-    <h2 v-if="filtered == false">
-      Clicca su una o più categorie per vedere dei ristoranti
-    </h2>
     <div v-if="filtered == true" class="restaurants-container">
-      <h2>Restaurants</h2>
-      <div class="row">
-        <div v-for="restaurant in filteredRestaurants" class="col-3">
-          <div class="card">
-            <h1>{{ restaurant.restaurant_name }}</h1>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+        <template v-if="(activeTypes.length > 0)">
+          <div  v-for="restaurant in filteredRestaurants" class="col mb-4">
+            <RestaurantCard :restaurant="restaurant"/>
           </div>
-        </div>
+        </template>
       </div>
     </div>
   </div>
