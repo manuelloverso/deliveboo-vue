@@ -27,10 +27,21 @@ export default {
       this.filtered = true;
       store.types.forEach((type) => {
         if (
-          type.id - 1 == typeId &&
-          this.activeTypes.includes(type.name) == false
+          type.id - 1 == typeId
+
         ) {
-          this.activeTypes.push(type.name);
+
+          
+          if(!this.activeTypes.includes(type.name)){
+            this.activeTypes.push(type.name);
+            
+          }else{
+            let index = this.activeTypes.indexOf(type.name);
+            this.activeTypes.splice(index);
+            console.log(index);
+
+          }
+          console.log(this.activeTypes);
         }
       });
 
@@ -73,9 +84,10 @@ export default {
     <!-- Types Filter -->
     <h2>Types</h2>
     <div class="types-container">
-      <div class="type-btn" v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
+      
+      <a class="btn btn-primary"  role="button" data-bs-toggle="button" v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
         {{ singleType.name }}
-      </div>
+      </a>
     </div>
 
     <!-- Restaurants -->
