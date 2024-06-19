@@ -10,36 +10,27 @@ export default {
       filteredRestaurants: [],
       test: [],
     };
-
   },
 
   methods: {
-
-
-
-
     filterByTypes(typeId) {
-
-      let checker = (arr, target) => target.every(v => arr.includes(v));
+      let checker = (arr, target) => target.every((v) => arr.includes(v));
 
       this.filteredRestaurants = [];
 
       this.filtered = true;
       store.types.forEach((type) => {
-        if (
-          type.id - 1 == typeId
-
-        ) {
-
-          
-          if(!this.activeTypes.includes(type.name)){
+        if (type.id - 1 == typeId) {
+          if (!this.activeTypes.includes(type.name)) {
+            const btn = document.getElementById(`${type.name}`);
+            btn.classList.add("active-type");
             this.activeTypes.push(type.name);
-            
-          }else{
+          } else {
+            const btn = document.getElementById(`${type.name}`);
+            btn.classList.remove("active-type");
             let index = this.activeTypes.indexOf(type.name);
             this.activeTypes.splice(index);
             console.log(index);
-
           }
           console.log(this.activeTypes);
         }
@@ -56,12 +47,11 @@ export default {
 
           if (checker(this.test, this.activeTypes)) {
             // console.log(true);
-            this.filteredRestaurants.push(restaurant)
+            this.filteredRestaurants.push(restaurant);
             console.log(restaurant);
-          };
+          }
         }
       });
-
     },
   },
 };
@@ -84,10 +74,16 @@ export default {
     <!-- Types Filter -->
     <h2>Types</h2>
     <div class="types-container">
-      
-      <a class="btn btn-primary"  role="button" data-bs-toggle="button" v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
+      <div
+        :id="singleType.name"
+        class="btn btn-primary"
+        role="button"
+        data-bs-toggle="button"
+        v-for="(singleType, index) in store.types"
+        @click="filterByTypes(index)"
+      >
         {{ singleType.name }}
-      </a>
+      </div>
     </div>
 
     <!-- Restaurants -->
@@ -180,6 +176,10 @@ export default {
     font-size: 1.3rem;
     border-radius: 10px;
     background-color: var(--accent);
+  }
+
+  .active-type {
+    background-color: red !important;
   }
 }
 </style>
