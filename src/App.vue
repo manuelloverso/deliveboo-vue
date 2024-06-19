@@ -1,6 +1,7 @@
 <script>
 import AppFooter from "./components/AppFooter.vue";
 import AppHeader from "./components/AppHeader.vue";
+import { store } from "./store.js";
 
 export default {
   components: {
@@ -9,7 +10,13 @@ export default {
   },
   name: "App",
   data() {
-    return {};
+    return {
+      store,
+    };
+  },
+  mounted() {
+    store.getTypes();
+    store.getRestaurants();
   },
 };
 </script>

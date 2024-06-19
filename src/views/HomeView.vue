@@ -1,36 +1,39 @@
 <script>
-import axios from "axios";
+import { store } from "../store.js";
 export default {
   name: "HomeView",
   data() {
     return {
-      url: "http://127.0.0.1:8000/api/restaurants",
-      restaurants: [],
-      types: [],
-      loading: true,
-      loadingTypes: true,
+      store,
+      filtered: false,
+      activeTypes: [],
+      filteredRestaurants: [],
     };
   },
 
   methods: {
-    getRestaurants() {
-      axios.get(this.url).then((response) => {
-        this.restaurants = response.data.results;
-        this.loading = false;
-      });
-    },
+    filterByTypes(typeId) {
+      this.filteredRestaurants = [];
 
-    getTypes() {
-      axios.get("http://127.0.0.1:8000/api/types").then((response) => {
-        this.types = response.data.results;
-        this.loadingTypes = false;
+      this.filtered = true;
+      store.types.forEach((type) => {
+        if (
+          type.id - 1 == typeId &&
+          this.activeTypes.includes(type.name) == false
+        ) {
+          this.activeTypes.push(type.name);
+        }
       });
-    },
-  },
 
-  mounted() {
-    this.getRestaurants();
-    this.getTypes();
+      store.restaurants.forEach((restaurant) => {
+        restaurant.types.forEach((type) => {
+          if (this.activeTypes.includes(type.name)) {
+            this.filteredRestaurants.push(restaurant);
+          }
+        });
+      });
+      console.log(this.filteredRestaurants);
+    },
   },
 };
 </script>
@@ -48,22 +51,31 @@ export default {
     </div>
   </div>
 
-  <!-- Types Filter -->
-  <h2>Types</h2>
-  <div v-if="loadingTypes == false" class="row">
-    <div v-for="singleType in types" class="col-3">
-      <div class="card">
-        <h1>{{ singleType.name }}</h1>
+  <div class="container">
+    <!-- Types Filter -->
+    <h2>Types</h2>
+    <div class="types-container">
+      <div
+        class="type-btn"
+        v-for="(singleType, index) in store.types"
+        @click="filterByTypes(index)"
+      >
+        {{ singleType.name }}
       </div>
     </div>
-  </div>
 
-  <!-- Restaurants -->
-  <h2>Restaurants</h2>
-  <div v-if="loading == false" class="row">
-    <div v-for="restaurant in restaurants" class="col-3">
-      <div class="card">
-        <h1>{{ restaurant.restaurant_name }}</h1>
+    <!-- Restaurants -->
+    <h2 v-if="filtered == false">
+      Clicca su una o più categorie per vedere dei ristoranti
+    </h2>
+    <div v-if="filtered == true" class="restaurants-container">
+      <h2>Restaurants</h2>
+      <div class="row">
+        <div v-for="restaurant in store.restaurants" class="col-3">
+          <div class="card">
+            <h1>{{ restaurant.restaurant_name }}</h1>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -125,6 +137,20 @@ export default {
   .left {
     left: 17%;
     max-width: 500px;
+  }
+}
+
+.types-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  .type-btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    background-color: var(--accent);
   }
 }
 </style>
