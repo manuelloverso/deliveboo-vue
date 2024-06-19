@@ -8,11 +8,20 @@ export default {
       filtered: false,
       activeTypes: [],
       filteredRestaurants: [],
+      test: [],
     };
+
   },
 
   methods: {
+
+
+
+
     filterByTypes(typeId) {
+
+      let checker = (arr, target) => target.every(v => arr.includes(v));
+
       this.filteredRestaurants = [];
 
       this.filtered = true;
@@ -25,14 +34,23 @@ export default {
         }
       });
 
+      // console.log(this.activeTypes);
+      // console.log(store.restaurants[9].types);
       store.restaurants.forEach((restaurant) => {
-        restaurant.types.forEach((type) => {
-          if (this.activeTypes.includes(type.name)) {
-            this.filteredRestaurants.push(restaurant);
-          }
-        });
+        {
+          this.test = [];
+          restaurant.types.forEach((type) => {
+            this.test.push(type.name);
+          });
+
+          if (checker(this.test, this.activeTypes)) {
+            // console.log(true);
+            this.filteredRestaurants.push(restaurant)
+            console.log(restaurant);
+          };
+        }
       });
-      console.log(this.filteredRestaurants);
+
     },
   },
 };
@@ -55,11 +73,7 @@ export default {
     <!-- Types Filter -->
     <h2>Types</h2>
     <div class="types-container">
-      <div
-        class="type-btn"
-        v-for="(singleType, index) in store.types"
-        @click="filterByTypes(index)"
-      >
+      <div class="type-btn" v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
         {{ singleType.name }}
       </div>
     </div>
@@ -71,7 +85,7 @@ export default {
     <div v-if="filtered == true" class="restaurants-container">
       <h2>Restaurants</h2>
       <div class="row">
-        <div v-for="restaurant in store.restaurants" class="col-3">
+        <div v-for="restaurant in filteredRestaurants" class="col-3">
           <div class="card">
             <h1>{{ restaurant.restaurant_name }}</h1>
           </div>
@@ -85,14 +99,17 @@ export default {
   height: 800px;
   background-color: red;
   position: relative;
+
   & h2 {
     font-size: 3rem;
   }
+
   & img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .overlay {
     position: absolute;
     width: 100%;
