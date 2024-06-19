@@ -1,12 +1,11 @@
 <script>
 import { store } from "../store.js";
-import RestaurantCard from '../components/RestaurantCard.vue';
+import RestaurantCard from "../components/RestaurantCard.vue";
 export default {
-
   name: "HomeView",
 
   components: {
-    RestaurantCard
+    RestaurantCard,
   },
 
   data() {
@@ -36,7 +35,7 @@ export default {
             const btn = document.getElementById(`${type.name}`);
             btn.classList.remove("active-type");
             let index = this.activeTypes.indexOf(type.name);
-            this.activeTypes.splice(index);
+            this.activeTypes.splice(index, 1);
             console.log(index);
           }
           console.log(this.activeTypes);
@@ -81,8 +80,14 @@ export default {
     <!-- Types Filter -->
     <h2>Cosa vuoi mangiare oggi?</h2>
     <div class="types-container">
-      <div :id="singleType.name" class="btn btn-primary" role="button" data-bs-toggle="button"
-        v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
+      <div
+        :id="singleType.name"
+        class="btn btn-primary"
+        role="button"
+        data-bs-toggle="button"
+        v-for="(singleType, index) in store.types"
+        @click="filterByTypes(index)"
+      >
         {{ singleType.name }}
       </div>
     </div>
@@ -91,7 +96,7 @@ export default {
 
     <div v-if="filtered == true" class="restaurants-container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-        <template v-if="(activeTypes.length > 0)">
+        <template v-if="activeTypes.length > 0">
           <div v-for="restaurant in filteredRestaurants" class="col mb-4">
             <RestaurantCard :restaurant="restaurant" />
           </div>
@@ -99,10 +104,9 @@ export default {
       </div>
     </div>
 
-    <template v-if="(activeTypes.length == 0)">
+    <template v-if="activeTypes.length == 0">
       <h1>test</h1>
     </template>
-
   </div>
 </template>
 <style scoped>

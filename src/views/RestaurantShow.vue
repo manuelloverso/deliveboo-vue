@@ -75,12 +75,14 @@ export default {
               <div class="plate-card">
                 <!-- Image -->
                 <img
+                  loading="lazy"
                   v-if="plate.image.startsWith('http')"
                   class="plate-img"
                   :src="plate.image"
                   alt=""
                 />
                 <img
+                  loading="lazy"
                   v-else
                   class="plate-img"
                   :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
