@@ -87,11 +87,13 @@ export default {
                   alt=""
                 />
                 <div class="plate-info">
-                  <h3 class="plate-name">{{ plate.name }}</h3>
-                  <p>{{ plate.description }}</p>
-                  <p><strong>Prezzo: </strong>{{ plate.price }}</p>
+                  <div>
+                    <h3 class="plate-name">{{ plate.name }}</h3>
+                    <p>{{ plate.description }}</p>
+                    <p><strong>Prezzo: </strong>{{ plate.price }}</p>
+                  </div>
                   <button class="add-plate">
-                    <i class="fa-solid fa-plus"></i>+
+                    <i class="fa-solid fa-plus"></i>
                   </button>
                 </div>
               </div>
@@ -115,6 +117,8 @@ export default {
 
 .restaurant-plates {
   .plate-card {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     padding: 0.5rem;
     color: white;
@@ -127,16 +131,30 @@ export default {
       margin-bottom: 20px;
     }
 
+    .plate-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      flex-grow: 1;
+    }
+
     .plate-name {
       font-size: 1.2rem;
     }
 
     .add-plate {
-      padding: 6px;
+      padding: 6px 10px;
       border: none;
       border-radius: 10px;
-      color: var(--text-dark);
-      background-color: white;
+      color: white;
+      background-color: var(--accent);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: white;
+        color: var(--text-dark);
+      }
     }
   }
 }
