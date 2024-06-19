@@ -1,12 +1,63 @@
 <script>
+import { store } from "../store.js";
 export default {
   name: "HomeView",
   data() {
-    return {};
+    return {
+      store,
+      filtered: false,
+      activeTypes: [],
+      filteredRestaurants: [],
+      test: [],
+    };
+  },
+
+  methods: {
+    filterByTypes(typeId) {
+      let checker = (arr, target) => target.every((v) => arr.includes(v));
+
+      this.filteredRestaurants = [];
+
+      this.filtered = true;
+      store.types.forEach((type) => {
+        if (type.id - 1 == typeId) {
+          if (!this.activeTypes.includes(type.name)) {
+            const btn = document.getElementById(`${type.name}`);
+            btn.classList.add("active-type");
+            this.activeTypes.push(type.name);
+          } else {
+            const btn = document.getElementById(`${type.name}`);
+            btn.classList.remove("active-type");
+            let index = this.activeTypes.indexOf(type.name);
+            this.activeTypes.splice(index);
+            console.log(index);
+          }
+          console.log(this.activeTypes);
+        }
+      });
+
+      // console.log(this.activeTypes);
+      // console.log(store.restaurants[9].types);
+      store.restaurants.forEach((restaurant) => {
+        {
+          this.test = [];
+          restaurant.types.forEach((type) => {
+            this.test.push(type.name);
+          });
+
+          if (checker(this.test, this.activeTypes)) {
+            // console.log(true);
+            this.filteredRestaurants.push(restaurant);
+            console.log(restaurant);
+          }
+        }
+      });
+    },
   },
 };
 </script>
 <template>
+  <!-- Jumbotron -->
   <div class="jumbotron">
     <div class="overlay"></div>
     <img src="/public/img/jumbo.jpg" alt="" />
@@ -15,24 +66,58 @@ export default {
     </div>
     <div class="right">
       <h2>Sei un ristoratore?</h2>
-      <a href="#">Registrati</a>
+      <a href="http://127.0.0.1:8000/register">Registrati</a>
     </div>
   </div>
-  <h1>I am the home page</h1>
+
+  <div class="container">
+    <!-- Types Filter -->
+    <h2>Types</h2>
+    <div class="types-container">
+      <div
+        :id="singleType.name"
+        class="btn btn-primary"
+        role="button"
+        data-bs-toggle="button"
+        v-for="(singleType, index) in store.types"
+        @click="filterByTypes(index)"
+      >
+        {{ singleType.name }}
+      </div>
+    </div>
+
+    <!-- Restaurants -->
+    <h2 v-if="filtered == false">
+      Clicca su una o più categorie per vedere dei ristoranti
+    </h2>
+    <div v-if="filtered == true" class="restaurants-container">
+      <h2>Restaurants</h2>
+      <div class="row">
+        <div v-for="restaurant in filteredRestaurants" class="col-3">
+          <div class="card">
+            <h1>{{ restaurant.restaurant_name }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <style scoped>
 .jumbotron {
   height: 800px;
   background-color: red;
   position: relative;
+
   & h2 {
     font-size: 3rem;
   }
+
   & img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .overlay {
     position: absolute;
     width: 100%;
@@ -77,6 +162,24 @@ export default {
   .left {
     left: 17%;
     max-width: 500px;
+  }
+}
+
+.types-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  .type-btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    background-color: var(--accent);
+  }
+
+  .active-type {
+    background-color: red !important;
   }
 }
 </style>
