@@ -1,6 +1,7 @@
 <script>
 import { store } from "../store.js";
 import RestaurantCard from "../components/RestaurantCard.vue";
+import axios from "axios";
 export default {
   name: "HomeView",
 
@@ -27,18 +28,24 @@ export default {
       this.filtered = true;
       store.types.forEach((type) => {
         if (type.id - 1 == typeId) {
-          if (!this.activeTypes.includes(type.name)) {
+          if (!this.activeTypes.includes(type.id)) {
             const btn = document.getElementById(`${type.name}`);
             btn.classList.add("active-type");
-            this.activeTypes.push(type.name);
+            this.activeTypes.push(type.id);
           } else {
             const btn = document.getElementById(`${type.name}`);
             btn.classList.remove("active-type");
-            let index = this.activeTypes.indexOf(type.name);
+            let index = this.activeTypes.indexOf(type.id);
             this.activeTypes.splice(index, 1);
-            console.log(index);
           }
-          console.log(this.activeTypes);
+          axios
+            .get(store.baseApiUrl + `types/${this.activeTypes}`)
+            .then((resp) => {
+              console.log(resp.data.results);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       });
 
