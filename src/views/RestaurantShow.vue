@@ -77,40 +77,55 @@ export default {
 
       <!-- Piatti -->
       <div class="restaurant-plates">
-        <h2>Piatti</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-          <template v-for="plate in plates">
-            <div v-if="plate.is_visible == true" class="col pb-4">
-              <div class="plate-card">
-                <!-- Image -->
-                <img
-                  loading="lazy"
-                  v-if="plate.image.startsWith('http')"
-                  class="plate-img"
-                  :src="plate.image"
-                  alt=""
-                />
-                <img
-                  loading="lazy"
-                  v-else
-                  class="plate-img"
-                  :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
-                  alt=""
-                />
-                <div class="plate-info">
-                  <div>
-                    <h3 class="plate-name">{{ plate.name }}</h3>
-                    <p>{{ plate.description }}</p>
-                    <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
+        <template v-if="plates.length > 0">
+          <h2>Piatti</h2>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            <template v-for="plate in plates">
+              <div v-if="plate.is_visible == true" class="col pb-4">
+                <div class="plate-card">
+                  <!-- Image -->
+                  <template v-if="plate.image != null">
+                    <img
+                      loading="lazy"
+                      v-if="plate.image.startsWith('http')"
+                      class="plate-img"
+                      :src="plate.image"
+                      alt=""
+                    />
+                    <img
+                      loading="lazy"
+                      v-else
+                      class="plate-img"
+                      :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
+                      alt=""
+                    />
+                  </template>
+                  <img
+                    loading="lazy"
+                    v-else
+                    class="plate-img"
+                    src="/public/img/plate-default.jpg"
+                    alt=""
+                  />
+
+                  <div class="plate-info">
+                    <div>
+                      <h3 class="plate-name">{{ plate.name }}</h3>
+                      <p>{{ plate.description }}</p>
+                      <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
+                    </div>
+                    <button class="add-plate">
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
                   </div>
-                  <button class="add-plate">
-                    <i class="fa-solid fa-plus"></i>
-                  </button>
                 </div>
               </div>
-            </div>
-          </template>
-        </div>
+            </template>
+          </div>
+        </template>
+        <h1 class="my-5" v-else>
+          Questo ristorante non ha alcun piatto da mostrare 😞
+        </h1>
       </div>
     </template>
     <h3 v-else>Loading..</h3>
