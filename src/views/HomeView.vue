@@ -36,7 +36,7 @@ export default {
             const btn = document.getElementById(`${type.name}`);
             btn.classList.remove("active-type");
             let index = this.activeTypes.indexOf(type.name);
-            this.activeTypes.splice(index);
+            this.activeTypes.splice(index, 1);
             console.log(index);
           }
           console.log(this.activeTypes);
@@ -64,24 +64,56 @@ export default {
 };
 </script>
 <template>
+
   <!-- Jumbotron -->
   <div class="jumbotron">
-    <div class="overlay"></div>
-    <img src="/public/img/jumbo.jpg" alt="" />
-    <div class="left">
-      <h2>Lorem ipsum dolor sit amet consectetur.</h2>
+    <div class="overlay">
+
+
+
+
+      <header class="py-3 px-5">
+    <nav class="d-flex justify-content-between align-items-center">
+      <div class="logo">
+        <a href="http://localhost:5173/">
+          <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
+        </a>
+      </div>
+      <ul class="user-links list-unstyled d-flex gap-4 m-0">
+        <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+        <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+
+
+
+
+      <div class="container text-white d-flex flex-column align-items-center justify-content-center h-50">
+
+
+        <h2>Benvenuto su Deliverome</h2> <br>
+        <h3>Il miglior cibo della capitale direttamente a casa tua</h3>
+
+
+        <h2>Sei un ristoratore?</h2>
+        <a class="btn-jum" href="http://127.0.0.1:8000/register">Registrati</a>
+
+
+      </div>
     </div>
-    <div class="right">
-      <h2>Sei un ristoratore?</h2>
-      <a href="http://127.0.0.1:8000/register">Registrati</a>
-    </div>
+
+
   </div>
 
-  <div class="container">
+  <div class="container ">
     <!-- Types Filter -->
-    <h2>Cosa vuoi mangiare oggi?</h2>
+    <h2 class="text-center mt-4">Cosa vuoi mangiare oggi?</h2>
+    <p class="text-center">Scegli una o più tipologie di ristorante</p>
     <div class="types-container">
-      <div :id="singleType.name" class="btn btn-primary" role="button" data-bs-toggle="button"
+      <div :id="singleType.name" class="badge fs-6 type" role="button" data-bs-toggle="button"
         v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
         {{ singleType.name }}
       </div>
@@ -100,89 +132,127 @@ export default {
     </div>
 
     <template v-if="(activeTypes.length == 0)">
-      <h1>test</h1>
+      <div class="container d-flex align-items-center gap-4 my-4">
+        <div class="w-50 d-flex justify-content-center">
+          <img  src="/public/img/deliverome-circledark-logo.svg" alt="">
+        </div>
+        <div class="w-50">
+          <h4>Chi siamo</h4>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis enim atque reprehenderit explicabo rerum delectus vero a excepturi sapiente fuga natus sint tempore obcaecati dolore ea omnis culpa, eveniet quod!</p>
+        </div>
+      </div>
     </template>
 
   </div>
 </template>
 <style scoped>
+
+
+
+
+header {
+  /* background-color: var(--bg-header); */
+
+  .logo img {
+    display: block;
+    width: 100px;
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .user-links {
+    & li {
+      & a {
+        text-decoration: none;
+        color: var(--accent);
+        display: block;
+        padding: 7px 13px;
+        background-color: white;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+          background-color: var(--accent);
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 .jumbotron {
-  height: 800px;
+  height: 80vh;
   background-color: red;
   position: relative;
+  background-image: url("/public/img/jumbo.jpg");
+  background-size: cover;
+  background-position: center;
 
   & h2 {
     font-size: 3rem;
   }
 
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   .overlay {
-    position: absolute;
+
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 1;
     background-color: rgba(0, 0, 0, 0.466);
   }
 
-  .left,
-  .right {
-    color: white;
-    position: absolute;
-    z-index: 3;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+  .btn-jum {
+    background-color: white;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 7px 13px;
+    color: black;
+    text-decoration: none;
 
-  .right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    right: 17%;
-
-    & a {
-      text-decoration: none;
-      color: var(--accent);
-      display: block;
-      padding: 7px 13px;
-      font-size: 1.2rem;
-      background-color: white;
-      border-radius: 10px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-
-      &:hover {
-        background-color: var(--accent);
-        color: white;
-      }
+    &:hover {
+      background-color: var(--accent);
+      color: white;
     }
   }
 
-  .left {
-    left: 17%;
-    max-width: 500px;
-  }
 }
 
 .types-container {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
+  margin: 3rem 0;
 
-  .type-btn {
+
+
+
+  .type {
     cursor: pointer;
-    padding: 8px 15px;
-    font-size: 1.3rem;
-    border-radius: 10px;
     background-color: var(--accent);
+    transition: 0.5s;
+
+    &:hover {
+      transform: scale(1.07);
+      background-color: red;
+
+    }
   }
 
   .active-type {
-    background-color: red !important;
+    background-color: red;
+    transform: scale(1.07);
+
   }
 }
 </style>
