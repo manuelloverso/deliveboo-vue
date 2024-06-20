@@ -15,7 +15,18 @@ export default {
     :to="'restaurants/' + restaurant.restaurant_slug"
   >
     <div class="card rounded-3">
-      <img class="rounded-top" :src="restaurant.image" alt="" />
+      <img
+        v-if="restaurant.image.startsWith('https')"
+        class="rounded-top"
+        :src="restaurant.image"
+        alt=""
+      />
+      <img
+        v-else
+        class="rounded-top"
+        :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+        alt=""
+      />
 
       <div class="p-3">
         <h3>{{ restaurant.restaurant_name }}</h3>
