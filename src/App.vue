@@ -21,8 +21,7 @@ export default {
 };
 </script>
 <template>
-  <!-- Site Header -->
-  <AppHeader />
+
 
   <!-- Site Main -->
   <main>

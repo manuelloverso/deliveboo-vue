@@ -1,9 +1,14 @@
 <script>
 import { store } from "../store.js";
+import AppHeader from "../components/AppHeader.vue";
+
 import axios from "axios";
 
 export default {
   name: "RestaurantShow",
+  components: {
+    AppHeader,
+  },
   data() {
     return {
       store,
@@ -39,7 +44,10 @@ export default {
   },
 };
 </script>
+
 <template>
+  <!-- Site Header -->
+  <AppHeader />
   <div class="container py-4">
     <template v-if="loading == false">
       <div class="restaurant-info">
