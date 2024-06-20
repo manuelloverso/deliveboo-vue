@@ -60,42 +60,21 @@ export default {
           </p>
         </div>
         <!-- Image -->
-        <img
-          v-if="restaurant.image.startsWith('http')"
-          class="restaurant-img"
-          :src="restaurant.image"
-          alt=""
-        />
-        <img
-          v-else
-          class="restaurant-img"
-          :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-          alt=""
-        />
+        <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt="" />
+        <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
       </div>
 
       <!-- Piatti -->
       <div class="restaurant-plates">
         <h2>Piatti</h2>
-        <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
           <template v-for="plate in plates">
-            <div v-if="plate.is_visible == true" class="col-3 p-4">
+            <div v-if="plate.is_visible == true" class="col pb-4">
               <div class="plate-card">
                 <!-- Image -->
-                <img
-                  loading="lazy"
-                  v-if="plate.image.startsWith('http')"
-                  class="plate-img"
-                  :src="plate.image"
-                  alt=""
-                />
-                <img
-                  loading="lazy"
-                  v-else
-                  class="plate-img"
-                  :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
-                  alt=""
-                />
+                <img loading="lazy" v-if="plate.image.startsWith('http')" class="plate-img" :src="plate.image" alt="" />
+                <img loading="lazy" v-else class="plate-img" :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
+                  alt="" />
                 <div class="plate-info">
                   <div>
                     <h3 class="plate-name">{{ plate.name }}</h3>
@@ -120,6 +99,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 2rem;
+
   .restaurant-img {
     width: 400px;
   }
@@ -134,6 +114,7 @@ export default {
     color: white;
     background-color: black;
     border-radius: 15px;
+
     .plate-img {
       width: 100%;
       aspect-ratio: 16/12;
