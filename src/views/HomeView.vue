@@ -21,10 +21,6 @@ export default {
 
   methods: {
     filterByTypes(typeId) {
-      let checker = (arr, target) => target.every((v) => arr.includes(v));
-
-      this.filteredRestaurants = [];
-
       this.filtered = true;
       store.types.forEach((type) => {
         if (type.id - 1 == typeId) {
@@ -42,27 +38,11 @@ export default {
             .get(store.baseApiUrl + `types/${this.activeTypes}`)
             .then((resp) => {
               console.log(resp.data.results);
+              this.filteredRestaurants = resp.data.results;
             })
             .catch((err) => {
               console.log(err);
             });
-        }
-      });
-
-      // console.log(this.activeTypes);
-      // console.log(store.restaurants[9].types);
-      store.restaurants.forEach((restaurant) => {
-        {
-          this.test = [];
-          restaurant.types.forEach((type) => {
-            this.test.push(type.name);
-          });
-
-          if (checker(this.test, this.activeTypes)) {
-            // console.log(true);
-            this.filteredRestaurants.push(restaurant);
-            console.log(restaurant);
-          }
         }
       });
     },
@@ -129,6 +109,10 @@ export default {
       </div>
     </div>
 
+    <h1 v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+      Nessun risultato
+    </h1>
+
     <template v-if="activeTypes.length == 0">
       <div class="container d-flex align-items-center gap-4 my-4">
         <div class="w-50 d-flex justify-content-center">
@@ -144,10 +128,6 @@ export default {
           </p>
         </div>
       </div>
-    </template>
-
-    <template v-if="activeTypes.length == 0">
-      <h1>test</h1>
     </template>
   </div>
 </template>
