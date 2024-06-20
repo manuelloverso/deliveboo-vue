@@ -46,6 +46,17 @@ export default {
         }
       });
     },
+
+    resetFilter() {
+      this.activeTypes = [];
+      let buttons = document.querySelectorAll(".type");
+      buttons.forEach((btn) => {
+        if (btn.classList.contains("active-type")) {
+          btn.classList.remove("active-type");
+        }
+      });
+      this.filteredRestaurants = [];
+    },
   },
 };
 </script>
@@ -88,14 +99,19 @@ export default {
       <div
         :id="singleType.name"
         class="badge fs-6 type"
-        role="button"
-        data-bs-toggle="button"
         v-for="(singleType, index) in store.types"
         @click="filterByTypes(index)"
       >
         {{ singleType.name }}
       </div>
     </div>
+    <button
+      v-if="activeTypes.length != 0"
+      @click="resetFilter()"
+      class="reset-btn"
+    >
+      Azzera filtri
+    </button>
 
     <!-- Restaurants -->
 
@@ -165,7 +181,7 @@ header {
 }
 
 .jumbotron {
-  height: 80vh;
+  height: 90vh;
   background-color: red;
   position: relative;
   background-image: url("/public/img/jumbo.jpg");
@@ -203,7 +219,7 @@ header {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin: 3rem 0;
+  margin: 3rem 0 2rem 0;
 
   .type {
     cursor: pointer;
@@ -219,6 +235,23 @@ header {
   .active-type {
     background-color: red;
     transform: scale(1.07);
+  }
+}
+
+.reset-btn {
+  margin: auto;
+  display: block;
+  margin-bottom: 2rem;
+  background-color: var(--bg-header);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(1.07);
+    background-color: red;
   }
 }
 </style>

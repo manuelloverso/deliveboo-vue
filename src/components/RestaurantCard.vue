@@ -10,7 +10,10 @@ export default {
 </script>
 
 <template>
-  <RouterLink class="text-decoration-none" :to="'restaurants/' + restaurant.id">
+  <RouterLink
+    class="text-decoration-none"
+    :to="'restaurants/' + restaurant.restaurant_slug"
+  >
     <div class="card rounded-3">
       <img class="rounded-top" :src="restaurant.image" alt="" />
 

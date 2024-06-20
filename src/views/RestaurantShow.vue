@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       store,
+      slug: null,
       id: null,
       restaurant: null,
       plates: [],
@@ -22,7 +23,7 @@ export default {
   methods: {
     singleRestaurant() {
       axios
-        .get(store.baseApiUrl + `restaurants/${this.id}`)
+        .get(store.baseApiUrl + `restaurants/${this.slug}`)
         .then((resp) => {
           if (resp.data.success) {
             this.restaurant = resp.data.response;
@@ -39,7 +40,7 @@ export default {
   },
 
   mounted() {
-    this.id = this.$route.params.id;
+    this.slug = this.$route.params.slug;
     this.singleRestaurant();
   },
 };
@@ -60,8 +61,18 @@ export default {
           </p>
         </div>
         <!-- Image -->
-        <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt="" />
-        <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+        <img
+          v-if="restaurant.image.startsWith('http')"
+          class="restaurant-img"
+          :src="restaurant.image"
+          alt=""
+        />
+        <img
+          v-else
+          class="restaurant-img"
+          :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+          alt=""
+        />
       </div>
 
       <!-- Piatti -->
@@ -72,9 +83,20 @@ export default {
             <div v-if="plate.is_visible == true" class="col pb-4">
               <div class="plate-card">
                 <!-- Image -->
-                <img loading="lazy" v-if="plate.image.startsWith('http')" class="plate-img" :src="plate.image" alt="" />
-                <img loading="lazy" v-else class="plate-img" :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
-                  alt="" />
+                <img
+                  loading="lazy"
+                  v-if="plate.image.startsWith('http')"
+                  class="plate-img"
+                  :src="plate.image"
+                  alt=""
+                />
+                <img
+                  loading="lazy"
+                  v-else
+                  class="plate-img"
+                  :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
+                  alt=""
+                />
                 <div class="plate-info">
                   <div>
                     <h3 class="plate-name">{{ plate.name }}</h3>
