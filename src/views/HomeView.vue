@@ -1,12 +1,11 @@
 <script>
 import { store } from "../store.js";
-import RestaurantCard from '../components/RestaurantCard.vue';
+import RestaurantCard from "../components/RestaurantCard.vue";
 export default {
-
   name: "HomeView",
 
   components: {
-    RestaurantCard
+    RestaurantCard,
   },
 
   data() {
@@ -113,8 +112,19 @@ export default {
     <h2 class="text-center mt-4">Cosa vuoi mangiare oggi?</h2>
     <p class="text-center">Scegli una o più tipologie di ristorante</p>
     <div class="types-container">
+
       <div :id="singleType.name" class="badge fs-6 type" role="button" data-bs-toggle="button"
         v-for="(singleType, index) in store.types" @click="filterByTypes(index)">
+
+      <div
+        :id="singleType.name"
+        class="btn btn-primary"
+        role="button"
+        data-bs-toggle="button"
+        v-for="(singleType, index) in store.types"
+        @click="filterByTypes(index)"
+      
+
         {{ singleType.name }}
       </div>
     </div>
@@ -123,7 +133,7 @@ export default {
 
     <div v-if="filtered == true" class="restaurants-container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-        <template v-if="(activeTypes.length > 0)">
+        <template v-if="activeTypes.length > 0">
           <div v-for="restaurant in filteredRestaurants" class="col mb-4">
             <RestaurantCard :restaurant="restaurant" />
           </div>
@@ -141,8 +151,11 @@ export default {
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis enim atque reprehenderit explicabo rerum delectus vero a excepturi sapiente fuga natus sint tempore obcaecati dolore ea omnis culpa, eveniet quod!</p>
         </div>
       </div>
-    </template>
 
+    <template v-if="activeTypes.length == 0">
+      <h1>test</h1>
+
+    </template>
   </div>
 </template>
 <style scoped>

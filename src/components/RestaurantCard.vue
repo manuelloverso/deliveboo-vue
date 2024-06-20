@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <RouterLink :to="'restaurants/' + restaurant.id">
+  <RouterLink class="text-decoration-none" :to="'restaurants/' + restaurant.id">
     <div class="card rounded-3">
       <img class="rounded-top" :src="restaurant.image" alt="" />
 
@@ -31,7 +31,7 @@ export default {
 </template>
 <style scoped>
 .card {
-  transition: 1s;
+  transition: 0.4s;
   &:hover {
     transform: scale(1.05);
     z-index: 1;

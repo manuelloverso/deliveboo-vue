@@ -55,7 +55,7 @@ export default {
           <h2>{{ restaurant.restaurant_name }}</h2>
           <p><strong>Indirizzo: </strong>{{ restaurant.address }}</p>
           <p><strong>Email: </strong>{{ restaurant.restaurant_email }}</p>
-          <p>
+          <p v-if="restaurant.phone_number != null">
             <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
           </p>
         </div>
@@ -83,12 +83,14 @@ export default {
               <div class="plate-card">
                 <!-- Image -->
                 <img
+                  loading="lazy"
                   v-if="plate.image.startsWith('http')"
                   class="plate-img"
                   :src="plate.image"
                   alt=""
                 />
                 <img
+                  loading="lazy"
                   v-else
                   class="plate-img"
                   :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
@@ -98,7 +100,7 @@ export default {
                   <div>
                     <h3 class="plate-name">{{ plate.name }}</h3>
                     <p>{{ plate.description }}</p>
-                    <p><strong>Prezzo: </strong>{{ plate.price }}</p>
+                    <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
                   </div>
                   <button class="add-plate">
                     <i class="fa-solid fa-plus"></i>
