@@ -17,12 +17,12 @@ export default {
       restaurant: null,
       plates: [],
       loading: true,
+      cart: [],
     };
   },
 
   methods: {
     singleRestaurant() {
-      console.log(this.id);
       axios
         .get(store.baseApiUrl + `restaurants/${this.id}`)
         .then((resp) => {
@@ -38,9 +38,26 @@ export default {
           console.log(err);
         });
     },
+
+    addPlate(name) {
+      let plate;
+      this.plates.forEach((el) => {
+        if (el.name == name) {
+          plate = el;
+        }
+      });
+      this.cart.push(plate);
+      console.log(this.cart);
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+      console.log(JSON.parse(localStorage.getItem("cart")));
+    },
   },
 
   mounted() {
+    if (JSON.parse(localStorage.getItem("cart") != null)) {
+      this.cart = JSON.parse(localStorage.getItem("cart"));
+    }
+    console.log(this.cart);
     const fullParams = this.$route.params.id;
     const split = fullParams.split("-");
     this.id = split[split.length - 1];
@@ -54,30 +71,49 @@ export default {
   <!-- Site Header -->
   <AppHeader />
 
-
   <div class="container py-3">
     <template v-if="loading == false">
-
-      <div class="back_link"><a href="http://localhost:5173/"><i class="fa-solid fa-arrow-left-long" ></i> Torna indietro</a></div>
+      <div class="back_link">
+        <a href="http://localhost:5173/"
+          ><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a
+        >
+      </div>
 
       <div class="restaurant-info">
         <!-- Image -->
-        <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt="" />
-        <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+        <img
+          v-if="restaurant.image.startsWith('http')"
+          class="restaurant-img"
+          :src="restaurant.image"
+          alt=""
+        />
+        <img
+          v-else
+          class="restaurant-img"
+          :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+          alt=""
+        />
 
-        <div class="text-left ">
+        <div class="text-left">
           <h2 class="fw-bold">{{ restaurant.restaurant_name }}</h2>
           <p><strong>Indirizzo: </strong>{{ restaurant.address }}</p>
           <p v-if="restaurant.phone_number != null">
             <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
           </p>
         </div>
+      </div>
 
+      <div class="cart">
+        <h2>Carrello</h2>
+        <div v-for="plate in cart" class="cart-item d-flex gap-3">
+          <span>Name: {{ plate.name }}</span>
+          <span>Plate: {{ plate.price }}</span>
+        </div>
       </div>
 
       <!-- Piatti -->
-      <div class="restaurant-plates px-4  py-1  my-5 ">
-        <template v-if="plates.length > 0" >
+      <div class="restaurant-plates px-4 py-1 my-5">
+        <template v-if="plates.length > 0">
           <h2>Piatti</h2>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
             <template v-for="plate in plates">
@@ -85,12 +121,28 @@ export default {
                 <div class="plate-card">
                   <!-- Image -->
                   <template v-if="plate.image != null">
-                    <img loading="lazy" v-if="plate.image.startsWith('http')" class="plate-img" :src="plate.image"
-                      alt="" />
-                    <img loading="lazy" v-else class="plate-img"
-                      :src="'http://127.0.0.1:8000' + '/storage/' + plate.image" alt="" />
+                    <img
+                      loading="lazy"
+                      v-if="plate.image.startsWith('http')"
+                      class="plate-img"
+                      :src="plate.image"
+                      alt=""
+                    />
+                    <img
+                      loading="lazy"
+                      v-else
+                      class="plate-img"
+                      :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
+                      alt=""
+                    />
                   </template>
-                  <img loading="lazy" v-else class="plate-img" src="/public/img/plate-default.jpg" alt="" />
+                  <img
+                    loading="lazy"
+                    v-else
+                    class="plate-img"
+                    src="/public/img/plate-default.jpg"
+                    alt=""
+                  />
 
                   <div class="plate-info">
                     <div>
@@ -98,7 +150,7 @@ export default {
                       <p>{{ plate.description }}</p>
                       <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
                     </div>
-                    <button class="add-plate">
+                    <button @click="addPlate(plate.name)" class="add-plate">
                       <i class="fa-solid fa-plus"></i>
                     </button>
                   </div>
@@ -120,7 +172,6 @@ export default {
   margin-bottom: 20px;
 
   & a {
-
     text-decoration: none;
     color: var(--accent);
     transition: color 0.3s ease, color 0.3s ease;
@@ -144,9 +195,6 @@ export default {
 }
 
 .restaurant-plates {
-  
-    
-   
   .plate-card {
     display: flex;
     flex-direction: column;
@@ -156,7 +204,6 @@ export default {
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  
 
     .plate-img {
       width: 100%;
