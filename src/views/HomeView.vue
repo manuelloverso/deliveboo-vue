@@ -58,6 +58,7 @@ export default {
         }
       });
       this.filteredRestaurants = [];
+      
     },
   },
 };
@@ -118,9 +119,18 @@ export default {
     <!-- Restaurants -->
 
     <div v-if="filtered == true" class="restaurants-container">
+      <!--restaurants-count-->
+      <div v-if="filteredRestaurants.length == 1" class="count_restaurant">
+        <p> Ristorante disponibile: {{ filteredRestaurants.length }} </p>
+      </div>
+      <div v-if="filteredRestaurants.length > 1" class="count_restaurant">
+        <p> Ristoranti disponibili: {{ filteredRestaurants.length }} </p>
+      </div>
+     
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
         <template v-if="activeTypes.length > 0">
           <div v-for="restaurant in filteredRestaurants" class="col mb-4">
+            
             <RestaurantCard :restaurant="restaurant" />
           </div>
         </template>
@@ -254,6 +264,13 @@ header {
   &:hover {
     transform: scale(1.07);
     background-color: red;
+  }
+}
+
+.restaurants-container{
+  & .count_restaurant{
+    font-size: small;
+    color: rgba(0, 0, 0, 0.519);
   }
 }
 </style>
