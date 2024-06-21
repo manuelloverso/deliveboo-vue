@@ -6,9 +6,9 @@ export default {
 </script>
 
 <template>
-    <div class="container p-5 text-center">
-        
-            <h1 class="text-center">
+    <div class="container p-5 text-center ">
+       
+            <h1>
                 Spiacenti...
                 
             </h1>
