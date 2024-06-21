@@ -94,10 +94,20 @@ export default {
           alt=""
         />
 
-        <div class="text-left">
-          <h2 class="fw-bold">{{ restaurant.restaurant_name }}</h2>
-          <p><strong>Indirizzo: </strong>{{ restaurant.address }}</p>
-          <p v-if="restaurant.phone_number != null">
+        <div class="text-left px-4">
+          <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
+          <div class="d-flex gap-1 felx-wrap">
+            <div
+              v-for="restaurantType in restaurant.types"
+              class="types_restaurant fw-semibold mb-4"
+            >
+              {{ restaurantType.name }}
+            </div>
+          </div>
+          <p class="fs-6 fw-light">
+            <strong>Indirizzo: </strong>{{ restaurant.address }}
+          </p>
+          <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
             <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
           </p>
         </div>
@@ -189,8 +199,19 @@ export default {
   gap: 2rem;
 
   .restaurant-img {
-    width: 350px;
-    height: 200px;
+    width: 370px;
+    height: 230px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 100px;
+  }
+
+  .types_restaurant {
+    color: white;
+    display: block;
+    padding: 2px 4px;
+    background-color: var(--accent);
+    border-radius: 7px;
+    font-size: 12px;
   }
 }
 
