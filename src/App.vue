@@ -16,10 +16,14 @@ export default {
   },
   mounted() {
     store.getTypes();
+    store.getRestaurants();
   },
 };
 </script>
 <template>
+  <!-- Site Header -->
+  <AppHeader />
+
   <!-- Site Main -->
   <main>
     <RouterView />

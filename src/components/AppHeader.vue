@@ -10,7 +10,7 @@ export default {
   <header class="py-3 px-5">
     <nav class="d-flex justify-content-between align-items-center">
       <div class="logo">
-        <a href="http://localhost:5173/">
+        <a href="#">
           <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
         </a>
       </div>
