@@ -1,12 +1,14 @@
 <script>
 import { store } from "../store.js";
 import RestaurantCard from "../components/RestaurantCard.vue";
+import NoResult from "../components/NoResult.vue";
 import axios from "axios";
 export default {
   name: "HomeView",
 
   components: {
     RestaurantCard,
+    NoResult
   },
 
   data() {
@@ -126,7 +128,7 @@ export default {
     </div>
 
     <h1 v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
-      Nessun risultato
+      <NoResult />
     </h1>
 
     <template v-if="activeTypes.length == 0">
