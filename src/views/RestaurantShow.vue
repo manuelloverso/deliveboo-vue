@@ -231,6 +231,9 @@ export default {
       aspect-ratio: 16/12;
       object-fit: cover;
       margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+        0 3px 10px 0 rgba(0, 0, 0, 0.19);
     }
 
     .plate-info {
