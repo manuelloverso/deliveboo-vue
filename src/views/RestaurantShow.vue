@@ -22,8 +22,9 @@ export default {
 
   methods: {
     singleRestaurant() {
+      console.log(this.id);
       axios
-        .get(store.baseApiUrl + `restaurants/${this.slug}`)
+        .get(store.baseApiUrl + `restaurants/${this.id}`)
         .then((resp) => {
           if (resp.data.success) {
             this.restaurant = resp.data.response;
@@ -40,7 +41,10 @@ export default {
   },
 
   mounted() {
-    this.slug = this.$route.params.slug;
+    const fullParams = this.$route.params.id;
+    const split = fullParams.split("-");
+    this.id = split[split.length - 1];
+
     this.singleRestaurant();
   },
 };

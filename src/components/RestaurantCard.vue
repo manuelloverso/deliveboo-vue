@@ -12,7 +12,7 @@ export default {
 <template>
   <RouterLink
     class="text-decoration-none"
-    :to="'restaurants/' + restaurant.restaurant_slug"
+    :to="`restaurants/${restaurant.restaurant_slug}-${restaurant.id}`"
   >
     <div class="card rounded-3">
       <img
