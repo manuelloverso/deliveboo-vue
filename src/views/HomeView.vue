@@ -41,6 +41,7 @@ export default {
             .then((resp) => {
               console.log(resp.data.results);
               this.filteredRestaurants = resp.data.results;
+              
             })
             .catch((err) => {
               console.log(err);
