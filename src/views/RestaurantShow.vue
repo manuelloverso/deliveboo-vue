@@ -119,6 +119,9 @@ export default {
           <span>Name: {{ plate.name }}</span>
           <span>Plate: {{ plate.price }}</span>
         </div>
+        <RouterLink :to="{ name: 'checkout' }" class="btn btn-primary"
+          >Checkout</RouterLink
+        >
       </div>
 
       <!-- Piatti -->
