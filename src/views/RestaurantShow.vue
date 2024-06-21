@@ -68,7 +68,6 @@ export default {
         <div class="text-left ">
           <h2 class="fw-bold">{{ restaurant.restaurant_name }}</h2>
           <p><strong>Indirizzo: </strong>{{ restaurant.address }}</p>
-          <p><strong>Email: </strong>{{ restaurant.restaurant_email }}</p>
           <p v-if="restaurant.phone_number != null">
             <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
           </p>
