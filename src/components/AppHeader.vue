@@ -1,8 +1,12 @@
 <script>
+import { store } from "../store";
+
 export default {
   name: "AppHeader",
   data() {
-    return {};
+    return {
+      store,
+    };
   },
 };
 </script>
@@ -19,10 +23,20 @@ export default {
           <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
         </a>
       </div>
-      <ul class="user-links list-unstyled d-flex gap-4 m-0">
-        <li><a href="http://127.0.0.1:8000/login">Login</a></li>
-        <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
-      </ul>
+      <div class="links d-flex gap-5 align-items-center">
+        <div class="cart-link">
+          <div v-if="store.cart.length > 0" class="items-number">
+            {{ store.cart.length }}
+          </div>
+          <RouterLink :to="{ name: 'checkout' }"
+            ><i class="fa-solid fa-cart-shopping fa-lg"></i
+          ></RouterLink>
+        </div>
+        <ul class="user-links list-unstyled d-flex gap-4 m-0">
+          <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+          <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 </template>
@@ -39,6 +53,27 @@ header {
     }
   }
 
+  .cart-link {
+    position: relative;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    .items-number {
+      position: absolute;
+      color: var(--accent);
+      top: -15px;
+      left: -3px;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    a {
+      color: white;
+    }
+  }
   .user-links {
     & li {
       & a {
