@@ -7,7 +7,12 @@ export default {
 };
 </script>
 <template>
-  <header class="py-3 px-5">
+  <header
+    class="py-3 px-5"
+    :class="
+      $route.name == 'home' || $route.name == 'checkout' ? 'bg-transparent' : ''
+    "
+  >
     <nav class="d-flex justify-content-between align-items-center">
       <div class="logo">
         <a href="http://localhost:5173/">
@@ -52,5 +57,13 @@ header {
       }
     }
   }
+}
+
+.bg-transparent {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 4;
 }
 </style>

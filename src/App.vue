@@ -15,15 +15,18 @@ export default {
     };
   },
   mounted() {
+    if (JSON.parse(localStorage.getItem("cart") != null)) {
+      store.cart = JSON.parse(localStorage.getItem("cart"));
+    }
     store.getTypes();
   },
 };
 </script>
 <template>
+  <!-- Site Header -->
+  <AppHeader />
   <!-- Site Main -->
-  <main>
-    <RouterView />
-  </main>
+  <RouterView />
 
   <!-- Site Footer -->
   <AppFooter />
