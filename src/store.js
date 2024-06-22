@@ -7,6 +7,7 @@ export const store = reactive({
   loadingRestaurants: true,
   loadingTypes: true,
   cart: [],
+ 
 
   getTypes() {
     axios
@@ -94,4 +95,6 @@ export const store = reactive({
     }
     localStorage.setItem("cart", JSON.stringify(this.cart));
   },
+
+  
 });
