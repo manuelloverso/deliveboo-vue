@@ -1,12 +1,226 @@
 <script>
+import { store } from "../store.js";
+import axios from "axios";
+
 export default {
   name: "CheckoutView",
   data() {
-    return {};
+    return {
+      store,
+      plates: [],
+      loading: true,
+    };
+  },
+
+  methods: {
+    getPlates() {
+      let restId = null;
+      if (store.cart.length > 0) {
+        restId = store.cart[0].plateObj.restaurant_id;
+      }
+
+      if (restId != null) {
+        axios
+          .get(store.baseApiUrl + `restaurants/${restId}`)
+          .then((resp) => {
+            if (resp.data.success) {
+              this.plates = resp.data.response.plates;
+              this.loading = false;
+            } else {
+              this.$router.push({ name: "NotFound" });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+
+    sumPrice(plate) {
+      let price = plate.plateObj.price * plate.quantity;
+      return price.toFixed(2);
+    },
+
+    getTotal() {
+      let total = 0;
+      store.cart.forEach((el) => {
+        total += el.plateObj.price * el.quantity;
+        console.log(el.plateObj.price * el.quantity);
+      });
+
+      return total.toFixed(2);
+    },
+  },
+
+  mounted() {
+    this.getPlates();
   },
 };
 </script>
 <template>
-  <h1>Checkout</h1>
+  <main class="checkout-main">
+    <div class="container py-4 d-flex text-white">
+      <div class="left col-6 pt-5 pe-4">
+        <h1 class="fs-1 mb-3">Ci siamo quasi..</h1>
+        <h3 class="fs-2 mb-3">Rivedi il tuo ordine</h3>
+        <h3>
+          Una volta confermato, sarà direttamente a casa tua in pochi minuti
+        </h3>
+      </div>
+      <div class="col-6 p-4">
+        <template v-if="store.cart.length > 0">
+          <div v-if="!loading" class="cart">
+            <div
+              class="header d-flex justify-content-between align-items-center"
+            >
+              <h2>Riepilogo</h2>
+              <button @click="store.emptyCart()" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            <div class="items">
+              <div
+                class="item d-flex justify-content-between"
+                v-for="item in store.cart"
+              >
+                <div class="pic-name">
+                  <!-- Image -->
+                  <template v-if="item.plateObj.image != null">
+                    <img
+                      loading="lazy"
+                      v-if="item.plateObj.image.startsWith('http')"
+                      class="plate-img"
+                      :src="item.plateObj.image"
+                      alt=""
+                    />
+                    <img
+                      loading="lazy"
+                      v-else
+                      class="plate-img"
+                      :src="
+                        'http://127.0.0.1:8000' +
+                        '/storage/' +
+                        item.plateObj.image
+                      "
+                      alt=""
+                    />
+                  </template>
+                  <img
+                    loading="lazy"
+                    v-else
+                    class="plate-img"
+                    src="/public/img/plate-default.jpg"
+                    alt=""
+                  />
+
+                  <!-- Plate Name -->
+                  <span
+                    >{{ item.quantity }}x
+                    <strong>{{ item.plateObj.name }}</strong></span
+                  >
+                </div>
+                <!-- actions -->
+                <div class="actions-btns d-flex gap-2 align-items-center me-2">
+                  <strong>{{ sumPrice(item) }}€</strong>
+                  <button
+                    class="btn btn-dark"
+                    @click="store.addPlate(item.plateObj.name, plates)"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                  <button
+                    class="btn btn-dark"
+                    @click="store.removePlate(item.plateObj.name, plates)"
+                  >
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="total d-flex justify-content-between">
+              <span>Totale Ordine:</span>
+              <strong>{{ getTotal() }}€</strong>
+            </div>
+
+            <button class="payment-btn">Vai al pagamento</button>
+          </div>
+        </template>
+
+        <div v-else class="cart">
+          <h2 class="text-center mb-4">Il tuo carrello è vuoto</h2>
+          <button @click="this.$router.go(-1)" class="payment-btn">
+            Continua ad ordinare
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
-<style scoped></style>
+<style scoped>
+.checkout-main {
+  min-height: 70vh;
+  background: rgb(250, 89, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(250, 89, 0, 1) 9%,
+    rgba(255, 213, 0, 1) 100%
+  );
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+
+  .left {
+    padding-top: 2rem;
+  }
+
+  .cart {
+    color: var(--text-dark);
+    background-color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: black 0 0 20px 0;
+
+    .header {
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--text-dark);
+    }
+    .items {
+      overflow-y: auto;
+      max-height: 60vh;
+    }
+
+    .item {
+      margin-bottom: 20px;
+      .plate-img {
+        margin-right: 15px;
+        width: 70px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+
+    .total {
+      padding: 20px 20px 0 20px;
+      margin: 20px 0;
+      border-top: 1px solid var(--text-dark);
+    }
+
+    .payment-btn {
+      display: block;
+      margin: auto;
+      padding: 15px;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background-color: #e8590c;
+      }
+    }
+  }
+}
+</style>

@@ -11,19 +11,23 @@ export default {
 };
 </script>
 <template>
-  <AppHeader />
+  <main>
+    <div class="container not-found">
+      <div class="d-flex justify-content-center">
+        <div class="four">4</div>
+        <img
+          class="nofound_img"
+          src="/public/img/logo.svg"
+          alt="no found page"
+        />
+        <div class="four">4</div>
+      </div>
 
-  <div class="container not-found">
-    <div class="d-flex justify-content-center">
-      <div class="four">4</div>
-      <img class="nofound_img" src="/public/img/logo.svg" alt="no found page" />
-      <div class="four">4</div>
+      <div class="text_nofound text-center">
+        Oops! La pagina che stai cercando non esiste
+      </div>
     </div>
-
-    <div class="text_nofound text-center">
-      Oops! La pagina che stai cercando non esiste
-    </div>
-  </div>
+  </main>
 </template>
 <style scoped>
 .container.not-found {
