@@ -55,7 +55,7 @@ export default {
       store.cart.forEach(element => {
       total = total + element.plateObj.price * element.quantity
     });
-    return total 
+    return total.toFixed(2) 
   }
   },
 
@@ -81,14 +81,14 @@ export default {
         <div class="back_link">
           <a href="http://localhost:5173/"><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a>
         </div>
-
-
+        
         <!-- Carrello -->
         <div v-if="getTotal() > 0" class="cart-button d-flex justify-content-end">
           <button class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
             aria-controls="offcanvasScrolling">
             Rivedi il tuo ordine
           </button>
+
 
 
           <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
@@ -116,7 +116,7 @@ export default {
                       <div class="addBtn" @click="store.addPlate(plate.plateObj.name, plates)">+</div>
                     </td>
                     <td>{{ plate.plateObj.name }} </td>
-                    <td>{{ plate.plateObj.price * plate.quantity }}€</td>
+                    <td>{{ (plate.plateObj.price * plate.quantity).toFixed(2) }}€</td>
                   </tr>
                   <tr>
                     <td colspan="2"><strong>Totale:</strong></td>
@@ -289,6 +289,7 @@ export default {
 
 .cart-button {
   position: fixed;
+  left: 0;
   width: 85%;
 
   button {
