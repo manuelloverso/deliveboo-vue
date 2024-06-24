@@ -43,6 +43,7 @@ export default {
             .get(store.baseApiUrl + `types/${this.activeTypes}`)
             .then((resp) => {
               this.filteredRestaurants = resp.data.results;
+              
             })
             .catch((err) => {
               console.log(err);
@@ -69,17 +70,13 @@ export default {
     <!-- Jumbotron -->
     <div class="jumbotron">
       <div class="overlay">
-        <div
-          class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50"
-        >
-          <h2>Benvenuto su Deliverome</h2>
+        <div class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50">
+          <h1 class="fw-bold">Benvenuto su Deliverome</h1>
           <br />
-          <h3>Il miglior cibo della capitale direttamente a casa tua</h3>
+          <h2>Il miglior cibo della capitale direttamente a casa tua</h2>
 
-          <h2>Sei un ristoratore?</h2>
-          <a class="btn-jum" href="http://127.0.0.1:8000/register"
-            >Registrati</a
-          >
+          <h4 class="fw-light mt-5">Sei un ristoratore?</h4>
+          <a class="btn-jum" href="http://127.0.0.1:8000/register">Registrati</a>
         </div>
       </div>
     </div>
@@ -88,27 +85,20 @@ export default {
 
     <div class="container">
       <!-- Types Filter -->
-      <h2 class="text-center mt-4">Cosa vuoi mangiare oggi?</h2>
+      <h2 class="text-center mt-5">Cosa vuoi mangiare oggi?</h2>
       <p class="text-center">Scegli una o più tipologie di ristorante</p>
       <div class="types-container">
-        <div
-          :id="singleType.name"
-          class="badge fs-6 type"
-          v-for="(singleType, index) in store.types"
-          @click="filterByTypes(index)"
-        >
+        <div :id="singleType.name" class="badge fs-6 type" v-for="(singleType, index) in store.types"
+          @click="filterByTypes(index)">
           {{ singleType.name }}
         </div>
       </div>
-      <button
-        v-if="activeTypes.length != 0"
-        @click="resetFilter()"
-        class="reset-btn"
-      >
+      <button v-if="activeTypes.length != 0" @click="resetFilter()" class="reset-btn">
         Azzera filtri
       </button>
 
       <!-- Restaurants -->
+
 
       <div v-if="filtered == true" class="restaurants-container">
         <!--restaurants-count-->
@@ -130,12 +120,12 @@ export default {
         </div>
       </div>
 
-      <h1 v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+      <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
         <NoResult />
-      </h1>
+      </template>
 
       <template v-if="activeTypes.length == 0">
-        <div class="container d-flex align-items-center gap-4 my-4">
+        <div class="container d-flex align-items-center gap-4 my-5">
           <div class="w-50 d-flex justify-content-center">
             <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
           </div>
@@ -150,6 +140,9 @@ export default {
           </div>
         </div>
       </template>
+       <template v-else>
+        loading
+      </template>
     </div>
   </main>
 </template>
@@ -161,13 +154,15 @@ export default {
   background-image: url("/public/img/jumbo.jpg");
   background-size: cover;
   background-position: center;
-  margin-bottom: 4rem;
+
   .jumbo-text {
-    padding-top: 10rem;
+    padding-top: 15rem;
+    text-shadow: 3px 3px 4px #333;
   }
 
-  & h2 {
-    font-size: 3rem;
+  & h1 {
+    font-size: 4.5rem;
+    margin: 0;
   }
 
   .overlay {
@@ -184,6 +179,7 @@ export default {
     padding: 7px 13px;
     color: black;
     text-decoration: none;
+    text-shadow: none;
 
     &:hover {
       background-color: var(--accent);
