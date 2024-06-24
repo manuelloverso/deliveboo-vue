@@ -9,10 +9,91 @@ export default {
       store,
       plates: [],
       loading: true,
+      btClientToken: null,
+      customer_name: null,
+      customer_lastname: null,
+      customer_address: null,
+      customer_phone: null,
+      customer_email: null,
+      total: 10,
+      status: "ok",
+      restaurant_id: 1,
     };
   },
 
   methods: {
+    getClientToken() {
+      axios.get("http://127.0.0.1:8000/api/payment").then((resp) => {
+        /* console.log(resp.data.response); */
+        this.btClientToken = resp.data.response;
+        this.handleForm();
+      });
+    },
+
+    handleForm() {
+      const form = document.getElementById("payment-form");
+
+      braintree.dropin.create(
+        {
+          authorization: this.btClientToken,
+          container: "#dropin-container",
+          dataCollector: true,
+        },
+        (error, dropinInstance) => {
+          if (error) console.error(error);
+
+          form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            dropinInstance.requestPaymentMethod((error, payload) => {
+              if (error) console.error(error);
+
+              document.getElementById("nonce").value = payload.nonce;
+              console.log(payload.amount);
+
+              axios
+                .post("http://127.0.0.1:8000/api/payment", payload)
+                .then((resp) => {
+                  console.log(resp);
+                  const success = resp.data.response.success;
+
+                  if (success) {
+                    this.sendOrder();
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+              /* form.submit(); */
+            });
+          });
+        }
+      );
+    },
+
+    sendOrder() {
+      console.log("entered send order");
+      const data = {
+        customer_name: this.customer_name,
+        customer_lastname: this.customer_lastname,
+        customer_address: this.customer_address,
+        customer_phone: this.customer_phone,
+        customer_email: this.customer_email,
+        status: this.status,
+        total: this.total,
+        restaurant_id: this.restaurant_id,
+      };
+
+      axios
+        .post("http://127.0.0.1:8000/api/orders", data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
     getPlates() {
       let restId = null;
       if (store.cart.length > 0) {
@@ -45,7 +126,6 @@ export default {
       let total = 0;
       store.cart.forEach((el) => {
         total += el.plateObj.price * el.quantity;
-        console.log(el.plateObj.price * el.quantity);
       });
 
       return total.toFixed(2);
@@ -53,6 +133,7 @@ export default {
   },
 
   mounted() {
+    this.getClientToken();
     this.getPlates();
   },
 };
@@ -143,7 +224,121 @@ export default {
               <strong>{{ getTotal() }}€</strong>
             </div>
 
-            <button class="payment-btn">Vai al pagamento</button>
+            <button
+              class="payment-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#modalId"
+            >
+              Vai al pagamento
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+          <div
+            class="modal fade"
+            id="modalId"
+            tabindex="-1"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            role="dialog"
+            aria-labelledby="modalTitleId"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+              role="document"
+            >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalTitleId">Modal title</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form class="text-dark" id="payment-form" method="">
+                    <div class="mb-3">
+                      <label for="customer_name" class="form-label">Name</label>
+                      <input
+                        v-model="customer_name"
+                        type="text"
+                        name="customer_name"
+                        id="customer_name"
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="customer_lastname" class="form-label"
+                        >lastname</label
+                      >
+                      <input
+                        v-model="customer_lastname"
+                        type="text"
+                        name="customer_lastname"
+                        id="customer_lastname"
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="customer_address" class="form-label"
+                        >address</label
+                      >
+                      <input
+                        v-model="customer_address"
+                        type="text"
+                        name="customer_address"
+                        id="customer_address"
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="customer_phone" class="form-label"
+                        >phone</label
+                      >
+                      <input
+                        v-model="customer_phone"
+                        type="text"
+                        name="customer_phone"
+                        id="customer_phone"
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="customer_email" class="form-label"
+                        >email</label
+                      >
+                      <input
+                        v-model="customer_email"
+                        type="text"
+                        name="customer_email"
+                        id="customer_email"
+                      />
+                    </div>
+                    <div id="dropin-container"></div>
+                    <input type="submit" />
+                    <input
+                      type="hidden"
+                      id="nonce"
+                      name="payment_method_nonce"
+                    />
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
           </div>
         </template>
 
