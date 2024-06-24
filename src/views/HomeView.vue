@@ -2,6 +2,7 @@
 import { store } from "../store.js";
 import RestaurantCard from "../components/RestaurantCard.vue";
 import NoResult from "../components/NoResult.vue";
+import Loading from "../components/Loading.vue";
 import axios from "axios";
 import TypesSlider from "../components/TypesSlider.vue";
 export default {
@@ -10,7 +11,7 @@ export default {
   components: {
     RestaurantCard,
     NoResult,
-
+    Loading,
     TypesSlider,
   },
 
@@ -21,11 +22,13 @@ export default {
       activeTypes: [],
       filteredRestaurants: [],
       test: [],
+      loading: false,
     };
   },
 
   methods: {
     filterByTypes(typeId) {
+      this.loading = true;
       this.filtered = true;
       store.types.forEach((type) => {
         if (type.id - 1 == typeId) {
@@ -39,15 +42,18 @@ export default {
             let index = this.activeTypes.indexOf(type.id);
             this.activeTypes.splice(index, 1);
           }
+
           axios
             .get(store.baseApiUrl + `types/${this.activeTypes}`)
             .then((resp) => {
               this.filteredRestaurants = resp.data.results;
-              
+              this.loading = false;
             })
             .catch((err) => {
               console.log(err);
-            });
+              this.loading = false;
+            })
+
         }
       });
     },
@@ -98,8 +104,6 @@ export default {
       </button>
 
       <!-- Restaurants -->
-
-
       <div v-if="filtered == true" class="restaurants-container">
         <!--restaurants-count-->
         <template v-if="activeTypes.length > 0">
@@ -110,7 +114,7 @@ export default {
             <p>Ristoranti disponibili: {{ filteredRestaurants.length }}</p>
           </div>
         </template>
-
+        <!--restaurant-cards-->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
           <template v-if="activeTypes.length > 0">
             <div v-for="restaurant in filteredRestaurants" class="col mb-4">
@@ -119,11 +123,11 @@ export default {
           </template>
         </div>
       </div>
-
-      <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
-        <NoResult />
+      <!--loading-->
+      <template v-if="loading">
+        <Loading />
       </template>
-
+      <!--about-us-->
       <template v-if="activeTypes.length == 0">
         <div class="container d-flex align-items-center gap-4 my-5">
           <div class="w-50 d-flex justify-content-center">
@@ -140,8 +144,9 @@ export default {
           </div>
         </div>
       </template>
-       <template v-else>
-        loading
+      <!--noresult-->
+      <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+        <NoResult />
       </template>
     </div>
   </main>
