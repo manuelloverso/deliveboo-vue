@@ -3,12 +3,15 @@ import { store } from "../store.js";
 import RestaurantCard from "../components/RestaurantCard.vue";
 import NoResult from "../components/NoResult.vue";
 import axios from "axios";
+import TypesSlider from "../components/TypesSlider.vue";
 export default {
   name: "HomeView",
 
   components: {
     RestaurantCard,
     NoResult,
+
+    TypesSlider,
   },
 
   data() {
@@ -80,6 +83,8 @@ export default {
         </div>
       </div>
     </div>
+
+    <TypesSlider />
 
     <div class="container">
       <!-- Types Filter -->
@@ -156,6 +161,7 @@ export default {
   background-image: url("/public/img/jumbo.jpg");
   background-size: cover;
   background-position: center;
+  margin-bottom: 4rem;
   .jumbo-text {
     padding-top: 10rem;
   }
