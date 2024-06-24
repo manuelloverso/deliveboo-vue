@@ -1,12 +1,14 @@
 <script>
 import { store } from "../store.js";
 import AppHeader from "../components/AppHeader.vue";
+import Loading from "../components/Loading.vue";
 import axios from "axios";
 
 export default {
   name: "RestaurantShow",
   components: {
     AppHeader,
+    Loading
   },
   data() {
     return {
@@ -75,7 +77,7 @@ export default {
 <template>
   <main>
     <div class="container py-3">
-      <template v-if="loading == false">
+      <template v-if="loading == false" loading="lazy">
         <div class="back_link">
           <a href="http://localhost:5173/"><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a>
         </div>
@@ -135,8 +137,8 @@ export default {
 
         <div class="restaurant-info">
           <!-- Image -->
-          <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt="" />
-          <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+          <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt=""/>
+          <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt=""/>
 
           <div class="text-left px-4">
             <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
@@ -227,7 +229,9 @@ export default {
           </div>
         </div>
       </template>
-      <h3 v-else>Loading..</h3>
+      <template v-else>
+        <Loading />
+      </template>
     </div>
   </main>
 </template>
