@@ -15,24 +15,20 @@ export default {
       customer_address: null,
       customer_phone: null,
       customer_email: null,
-      total: 10,
-      status: "ok",
-      restaurant_id: 1,
+      errors: {},
+      dropinInstance: null,
     };
   },
 
   methods: {
     getClientToken() {
       axios.get("http://127.0.0.1:8000/api/payment").then((resp) => {
-        /* console.log(resp.data.response); */
         this.btClientToken = resp.data.response;
-        this.handleForm();
+        this.initBraintree();
       });
     },
 
-    handleForm() {
-      const form = document.getElementById("payment-form");
-
+    initBraintree() {
       braintree.dropin.create(
         {
           authorization: this.btClientToken,
@@ -41,57 +37,60 @@ export default {
         },
         (error, dropinInstance) => {
           if (error) console.error(error);
-
-          form.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            dropinInstance.requestPaymentMethod((error, payload) => {
-              if (error) console.error(error);
-
-              document.getElementById("nonce").value = payload.nonce;
-              console.log(payload.amount);
-
-              axios
-                .post("http://127.0.0.1:8000/api/payment", payload)
-                .then((resp) => {
-                  console.log(resp);
-                  const success = resp.data.response.success;
-
-                  if (success) {
-                    this.sendOrder();
-                  }
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-              /* form.submit(); */
-            });
-          });
+          this.dropinInstance = dropinInstance;
         }
       );
     },
 
     sendOrder() {
+      this.errors = {};
       console.log("entered send order");
       const data = {
+        cart: store.cart,
         customer_name: this.customer_name,
         customer_lastname: this.customer_lastname,
         customer_address: this.customer_address,
         customer_phone: this.customer_phone,
         customer_email: this.customer_email,
-        status: this.status,
-        total: this.total,
-        restaurant_id: this.restaurant_id,
+        total: store.getTotal(),
+        restaurant_id: store.cart[0].plateObj.restaurant_id,
+        reqPayload: null,
       };
 
-      axios
-        .post("http://127.0.0.1:8000/api/orders", data)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.dropinInstance.requestPaymentMethod((error, payload) => {
+        if (error) {
+          console.error(error);
+          /* return; */
+        }
+        document.getElementById("nonce").value = payload.nonce;
+        data.reqPayload = payload;
+
+        axios
+          .post("http://127.0.0.1:8000/api/orders/process", data)
+          .then((response) => {
+            console.log(response);
+            if (!response.data.success) {
+              this.errors = response.data.errors;
+              console.log(this.errors);
+            } else {
+              store.emptyCart();
+              this.total = null;
+              this.customer_name = null;
+              this.customer_lastname = null;
+              this.customer_address = null;
+              this.customer_phone = null;
+              this.customer_email = null;
+              const myModal = new bootstrap.Modal(
+                document.getElementById("modalId")
+              );
+              myModal.hide();
+              this.$router.push({ name: "accepted" });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     },
 
     getPlates() {
@@ -120,15 +119,6 @@ export default {
     sumPrice(plate) {
       let price = plate.plateObj.price * plate.quantity;
       return price.toFixed(2);
-    },
-
-    getTotal() {
-      let total = 0;
-      store.cart.forEach((el) => {
-        total += el.plateObj.price * el.quantity;
-      });
-
-      return total.toFixed(2);
     },
   },
 
@@ -205,13 +195,13 @@ export default {
                   <strong>{{ sumPrice(item) }}€</strong>
                   <button
                     class="btn btn-dark"
-                    @click="store.addPlate(item.plateObj.name, plates)"
+                    @click="store.addPlate(item.plateObj)"
                   >
                     <i class="fa-solid fa-plus"></i>
                   </button>
                   <button
                     class="btn btn-dark"
-                    @click="store.removePlate(item.plateObj.name, plates)"
+                    @click="store.removePlate(item.plateObj)"
                   >
                     <i class="fa-solid fa-minus"></i>
                   </button>
@@ -221,7 +211,7 @@ export default {
 
             <div class="total d-flex justify-content-between">
               <span>Totale Ordine:</span>
-              <strong>{{ getTotal() }}€</strong>
+              <strong>{{ store.getTotal() }}€</strong>
             </div>
 
             <button
@@ -246,12 +236,12 @@ export default {
             aria-hidden="true"
           >
             <div
-              class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+              class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
               role="document"
             >
-              <div class="modal-content">
+              <div class="modal-content text-dark">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="modalTitleId">Modal title</h5>
+                  <h5 class="modal-title" id="modalTitleId">Pagamento</h5>
                   <button
                     type="button"
                     class="btn-close"
@@ -260,66 +250,101 @@ export default {
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <form class="text-dark" id="payment-form" method="">
+                  <form
+                    @submit.prevent="sendOrder()"
+                    class="text-dark"
+                    id="payment-form"
+                    method=""
+                  >
                     <div class="mb-3">
-                      <label for="customer_name" class="form-label">Name</label>
+                      <label for="customer_name" class="form-label">Nome</label>
                       <input
+                        required
+                        min="2"
+                        max="50"
+                        class="form-control"
                         v-model="customer_name"
                         type="text"
                         name="customer_name"
                         id="customer_name"
                       />
+
+                      <div class="text-danger" v-if="errors.customer_name">
+                        {{ errors.customer_name }}
+                      </div>
                     </div>
 
                     <div class="mb-3">
                       <label for="customer_lastname" class="form-label"
-                        >lastname</label
+                        >Cognome</label
                       >
                       <input
+                        required
+                        min="2"
+                        max="50"
+                        class="form-control"
                         v-model="customer_lastname"
                         type="text"
                         name="customer_lastname"
                         id="customer_lastname"
                       />
+                      <div class="text-danger" v-if="errors.customer_lastname">
+                        {{ errors.customer_lastname }}
+                      </div>
                     </div>
 
                     <div class="mb-3">
                       <label for="customer_address" class="form-label"
-                        >address</label
+                        >Indirizzo</label
                       >
                       <input
+                        class="form-control"
                         v-model="customer_address"
                         type="text"
                         name="customer_address"
                         id="customer_address"
                       />
+                      <div class="text-danger" v-if="errors.customer_address">
+                        {{ errors.customer_address }}
+                      </div>
                     </div>
 
                     <div class="mb-3">
                       <label for="customer_phone" class="form-label"
-                        >phone</label
+                        >Num. di telefono</label
                       >
                       <input
+                        class="form-control"
                         v-model="customer_phone"
                         type="text"
                         name="customer_phone"
                         id="customer_phone"
                       />
+                      <div class="text-danger" v-if="errors.customer_phone">
+                        {{ errors.customer_phone }}
+                      </div>
                     </div>
 
                     <div class="mb-3">
                       <label for="customer_email" class="form-label"
-                        >email</label
+                        >Email</label
                       >
                       <input
+                        class="form-control"
                         v-model="customer_email"
                         type="text"
                         name="customer_email"
                         id="customer_email"
                       />
+                      <div class="text-danger" v-if="errors.customer_email">
+                        {{ errors.customer_email }}
+                      </div>
                     </div>
                     <div id="dropin-container"></div>
-                    <input type="submit" />
+                    <p>
+                      <strong>Totale: {{ store.getTotal() }}</strong>
+                    </p>
+                    <button class="btn btn-primary" type="submit">Paga</button>
                     <input
                       type="hidden"
                       id="nonce"
@@ -333,9 +358,8 @@ export default {
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
-                    Close
+                    Chiudi
                   </button>
-                  <button type="button" class="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>

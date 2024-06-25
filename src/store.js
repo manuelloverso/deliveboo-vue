@@ -7,7 +7,6 @@ export const store = reactive({
   loadingRestaurants: true,
   loadingTypes: true,
   cart: [],
- 
 
   getTypes() {
     axios
@@ -34,18 +33,18 @@ export const store = reactive({
       return 0;
     }
   },
-
-  addPlate(name, plates) {
-    let plate;
-    //recupera il piatto
-    plates.forEach((el) => {
-      if (el.name == name) {
-        plate = el;
-      }
+  getTotal() {
+    let total = 0;
+    this.cart.forEach((el) => {
+      total += el.plateObj.price * el.quantity;
     });
 
+    return total.toFixed(2);
+  },
+
+  addPlate(plate) {
     //non permette di aggiungere piatti di diversi ristoranti
-    if (store.cart.length > 0) {
+    if (this.cart.length > 0) {
       if (plate.restaurant_id != this.cart[0].plateObj.restaurant_id) {
         const myModal = new bootstrap.Modal(document.getElementById("modalId"));
         myModal.show();
@@ -76,15 +75,7 @@ export const store = reactive({
     localStorage.setItem("cart", JSON.stringify(this.cart));
   },
 
-  removePlate(name, plates) {
-    let plate;
-    //recupera il piatto
-    plates.forEach((el) => {
-      if (el.name == name) {
-        plate = el;
-      }
-    });
-
+  removePlate(plate) {
     for (let i = this.cart.length - 1; i >= 0; i--) {
       let el = this.cart[i];
       if (el.plateObj.name == plate.name && el.quantity > 1) {
@@ -95,6 +86,4 @@ export const store = reactive({
     }
     localStorage.setItem("cart", JSON.stringify(this.cart));
   },
-
-  
 });
