@@ -84,7 +84,6 @@ export default {
             aria-controls="offcanvasScrolling"
             @click="store.temporaryPlate = null"
           >
-
             Rivedi il tuo ordine
           </button>
 
@@ -173,30 +172,28 @@ export default {
           <!-- Image -->
           <div class="row">
             <div class="col-12 col-sm-6">
-              <img v-if="restaurant.image.startsWith('http')" class="restaurant-img img-fluid" :src="restaurant.image" alt="" />
-              <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-                alt="" />
+              <img
+                v-if="restaurant.image.startsWith('http')"
+                class="restaurant-img img-fluid"
+                :src="restaurant.image"
+                alt=""
+              />
+              <img
+                v-else
+                class="restaurant-img"
+                :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+                alt=""
+              />
             </div>
-
-          <img
-            v-if="restaurant.image.startsWith('http')"
-            class="restaurant-img"
-            :src="restaurant.image"
-            alt=""
-          />
-          <img
-            v-else
-            class="restaurant-img"
-            :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-            alt=""
-          />
-
 
             <div class="col py-4">
               <div class="text-left px-4">
                 <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
                 <div class="d-flex gap-1 felx-wrap">
-                  <div v-for="restaurantType in restaurant.types" class="types_restaurant fw-semibold mb-4">
+                  <div
+                    v-for="restaurantType in restaurant.types"
+                    class="types_restaurant fw-semibold mb-4"
+                  >
                     {{ restaurantType.name }}
                   </div>
                 </div>
@@ -204,14 +201,12 @@ export default {
                   <strong>Indirizzo: </strong>{{ restaurant.address }}
                 </p>
                 <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
-                  <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
+                  <strong>Numero di telefono: </strong
+                  >{{ restaurant.phone_number }}
                 </p>
-
               </div>
             </div>
-
           </div>
-
         </div>
 
         <!-- Piatti -->
@@ -310,7 +305,6 @@ export default {
     height: 230px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 100px;
-    
   }
 
   .types_restaurant {
@@ -397,7 +391,5 @@ export default {
       }
     }
   }
-
- 
 }
 </style>
