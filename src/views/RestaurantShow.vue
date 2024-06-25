@@ -10,7 +10,7 @@ export default {
   components: {
     AppHeader,
     Loading,
-    PlateCard
+    PlateCard,
   },
   data() {
     return {
@@ -49,7 +49,6 @@ export default {
       });
       return found;
     },
-
   },
 
   mounted() {
@@ -67,8 +66,11 @@ export default {
     <div class="container py-3">
       <template v-if="loading == false" loading="lazy">
         <div class="back_link">
-          <a href="http://localhost:5173/"><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a>
+          <a href="http://localhost:5173/"
+            ><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a
+          >
         </div>
+
 
 
 
@@ -80,13 +82,18 @@ export default {
                 alt="" />
               <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
                 alt="" />
+
+
             </div>
 
             <div class="col-12 col-md-7 col-lg-6 py-4">
               <div class="text-left px-4">
                 <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
                 <div class="d-flex gap-1 felx-wrap">
-                  <div v-for="restaurantType in restaurant.types" class="types_restaurant fw-semibold mb-4">
+                  <div
+                    v-for="restaurantType in restaurant.types"
+                    class="types_restaurant fw-semibold mb-4"
+                  >
                     {{ restaurantType.name }}
                   </div>
                 </div>
@@ -94,10 +101,12 @@ export default {
                   <strong>Indirizzo: </strong>{{ restaurant.address }}
                 </p>
                 <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
-                  <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
+                  <strong>Numero di telefono: </strong
+                  >{{ restaurant.phone_number }}
                 </p>
               </div>
             </div>
+
             <div class=" col-12 col-sm-12 col-lg-3 mt-5 py-4 px-4">
               <!-- Carrello -->
               <div v-if="store.getTotal() > 0" class="cart-button">
@@ -161,19 +170,24 @@ export default {
               </div>
             </div>
 
-          </div>
 
+
+          </div>
         </div>
 
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 mb-4">
           <template v-if="plates.length > 0">
-
             <h2 class="mb-3">Piatti</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-
-              <PlateCard :plate="plate" :key="plate.id" v-for="plate in plates" />
-
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
+            >
+              <PlateCard
+                :plate="plate"
+                :restaurant_name="restaurant.restaurant_name"
+                :key="plate.id"
+                v-for="plate in plates"
+              />
             </div>
           </template>
           <h1 class="my-5" v-else>
@@ -183,21 +197,41 @@ export default {
 
         <!-- modale che appare se si tenta di aggiungere piatti da ristoranti diversi -->
         <!-- Modal Body -->
-        <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-          aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+        <div
+          class="modal fade"
+          id="modalId"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modalTitleId"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+            role="document"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="modalTitleId">Altro ristorante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </div>
               <div class="modal-body">
                 Puoi ordinare solamente da un ristorante alla volta , desideri
                 svuotare il carrello e ordinare da
-                <strong>{{ restaurant.restaurant_name }}</strong>?
+                <strong>{{ restaurant.restaurant_name }}</strong
+                >?
               </div>
               <div class="modal-footer">
-                <button @click="store.emptyCart()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+                <button
+                  @click="store.emptyCart()"
+                  data-bs-dismiss="modal"
+                  type="button"
+                  class="btn btn-danger"
+                >
                   Svuota il carrello
                 </button>
               </div>
@@ -238,7 +272,9 @@ export default {
     height: 230px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 100px;
+
     object-fit: cover;
+
 
   }
 
@@ -326,7 +362,6 @@ export default {
       }
     }
   }
-
 
 }
 </style>

@@ -8,7 +8,7 @@ export default {
     return {
       store,
       plates: [],
-      loading: true,
+      restaurant_name: null,
       btClientToken: null,
       customer_name: null,
       customer_lastname: null,
@@ -60,7 +60,7 @@ export default {
       this.dropinInstance.requestPaymentMethod((error, payload) => {
         if (error) {
           console.error(error);
-          /* return; */
+          return;
         }
         document.getElementById("nonce").value = payload.nonce;
         data.reqPayload = payload;
@@ -70,8 +70,13 @@ export default {
           .then((response) => {
             console.log(response);
             if (!response.data.success) {
-              this.errors = response.data.errors;
-              console.log(this.errors);
+              if ("errors" in response.data) {
+                this.errors = response.data.errors;
+                console.log(this.errors);
+              }
+              if ("failedPayment" in response.data) {
+                this.errors = { payment_failed: "Transazione fallita" };
+              }
             } else {
               store.emptyCart();
               this.total = null;
@@ -89,29 +94,6 @@ export default {
       });
     },
 
-    getPlates() {
-      let restId = null;
-      if (store.cart.length > 0) {
-        restId = store.cart[0].plateObj.restaurant_id;
-      }
-
-      if (restId != null) {
-        axios
-          .get(store.baseApiUrl + `restaurants/${restId}`)
-          .then((resp) => {
-            if (resp.data.success) {
-              this.plates = resp.data.response.plates;
-              this.loading = false;
-            } else {
-              this.$router.push({ name: "NotFound" });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    },
-
     sumPrice(plate) {
       let price = plate.plateObj.price * plate.quantity;
       return price.toFixed(2);
@@ -119,8 +101,9 @@ export default {
   },
 
   mounted() {
+    store.temporaryPlate = null;
     this.getClientToken();
-    this.getPlates();
+    this.restaurant_name = store.cart[0].restaurant;
   },
 };
 </script>
@@ -129,11 +112,14 @@ export default {
     <div class="container py-4 d-flex justify-content-between text-white">
       <div class="col-5 p-4">
         <template v-if="store.cart.length > 0">
-          <div v-if="!loading" class="cart">
+          <div class="cart">
             <div
               class="header d-flex justify-content-between align-items-center"
             >
-              <h2>Riepilogo</h2>
+              <div class="info">
+                <h2 class="mb-3">Riepilogo</h2>
+                <h4>{{ restaurant_name }}</h4>
+              </div>
               <button @click="store.emptyCart()" class="btn btn-danger">
                 <i class="fa-solid fa-trash"></i>
               </button>
@@ -174,8 +160,7 @@ export default {
                   />
 
                   <!-- Plate Name -->
-                  <span
-                    >{{ item.quantity }}x
+                  <span>
                     <strong>{{ item.plateObj.name }}</strong></span
                   >
                 </div>
@@ -184,10 +169,11 @@ export default {
                   <strong>{{ sumPrice(item) }}€</strong>
                   <button
                     class="btn btn-dark"
-                    @click="store.addPlate(item.plateObj)"
+                    @click="store.addPlate(item.plateObj, restaurant_name)"
                   >
                     <i class="fa-solid fa-plus"></i>
                   </button>
+                  <span>{{ item.quantity }}x</span>
                   <button
                     class="btn btn-dark"
                     @click="store.removePlate(item.plateObj)"
@@ -213,8 +199,11 @@ export default {
         </div>
       </div>
       <div class="right col-5 p-4">
-        <div class="card p-4 form-card">
+        <div v-if="store.cart.length > 0" class="card p-4 form-card">
           <h2 class="mb-3 px-3">Procedi all'ordine</h2>
+          <span class="text-warning fs-5"
+            >⚠️Tutti i campi sono obbligatori</span
+          >
           <form
             @submit.prevent="sendOrder()"
             id="payment-form"
@@ -224,8 +213,6 @@ export default {
             <div class="mb-3">
               <label for="customer_name" class="form-label">Nome</label>
               <input
-                required
-                min="2"
                 max="50"
                 class="form-control"
                 v-model="customer_name"
@@ -301,8 +288,11 @@ export default {
               </div>
             </div>
             <div id="dropin-container"></div>
+            <div class="text-danger fs-5 my-3" v-if="errors.payment_failed">
+              {{ errors.payment_failed }}
+            </div>
             <p>
-              <strong>Totale: {{ store.getTotal() }}</strong>
+              <strong>Totale: {{ store.getTotal() }}€</strong>
             </p>
             <button class="payment-btn" type="submit">Paga</button>
             <input type="hidden" id="nonce" name="payment_method_nonce" />

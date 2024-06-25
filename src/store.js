@@ -7,6 +7,8 @@ export const store = reactive({
   loadingRestaurants: true,
   loadingTypes: true,
   cart: [],
+  temporaryPlate: null,
+  isTemporaryAdded: false,
 
   getTypes() {
     axios
@@ -23,6 +25,12 @@ export const store = reactive({
   emptyCart() {
     this.cart = [];
     localStorage.clear();
+
+    if (this.temporaryPlate != null) {
+      this.cart.push(this.temporaryPlate);
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+      this.temporaryPlate = null;
+    }
   },
 
   getQuantity(name) {
@@ -42,21 +50,22 @@ export const store = reactive({
     return total.toFixed(2);
   },
 
-  addPlate(plate) {
+  addPlate(plate, restaurant_name) {
+    let plateObject = {
+      plateObj: plate,
+      quantity: 1,
+      restaurant: restaurant_name,
+    };
     //non permette di aggiungere piatti di diversi ristoranti
     if (this.cart.length > 0) {
       if (plate.restaurant_id != this.cart[0].plateObj.restaurant_id) {
+        this.temporaryPlate = plateObject;
+        this.isTemporaryAdded = true;
         const myModal = new bootstrap.Modal(document.getElementById("modalId"));
         myModal.show();
         return;
       }
     }
-
-    //lo trasforma in un oggetto che ne contiene la quantità
-    let plateObject = {
-      plateObj: plate,
-      quantity: 1,
-    };
 
     // se trova il piatto nel carrello modifica la quantità
     const objFound = this.cart.some((el) => {
