@@ -64,11 +64,7 @@ export default {
     <div class="splide" aria-label="types">
       <div class="splide__track">
         <ul class="splide__list align-items-center">
-          <splide-slide
-            class="idk"
-            v-for="singleType in store.types"
-            :key="singleType.id"
-          >
+          <splide-slide class="idk" v-for="singleType in store.types" :key="singleType.id">
             <img class="type" :src="singleType.image" :alt="singleType.name" />
           </splide-slide>
         </ul>
@@ -78,17 +74,25 @@ export default {
 </template>
 <style scoped>
 @import "@splidejs/splide/dist/css/splide.min.css";
+
 .types-slider {
   background-color: var(--accent);
   padding: 3rem 0;
   max-height: 500px;
+
+  @media (max-width:575px) {
+    display: none;
+  }
+
   .type {
     width: 90%;
     margin-bottom: 0 !important;
-
     border-radius: 20px;
     object-fit: cover;
     aspect-ratio: 16/10;
+
+
+
   }
 }
 </style>
