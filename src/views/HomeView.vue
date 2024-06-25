@@ -130,18 +130,22 @@ export default {
       <!--about-us-->
       <template v-if="activeTypes.length == 0">
         <div class="container d-flex align-items-center gap-4 my-5">
-          <div class="w-50 d-flex justify-content-center">
-            <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
+          <div class="row">
+            <div class="col">
+              <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
+            </div>
+            <div class="col">
+              <h4>Chi siamo</h4>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Blanditiis enim atque reprehenderit explicabo rerum delectus vero
+                a excepturi sapiente fuga natus sint tempore obcaecati dolore ea
+                omnis culpa, eveniet quod!
+              </p>
+            </div>
           </div>
-          <div class="w-50">
-            <h4>Chi siamo</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Blanditiis enim atque reprehenderit explicabo rerum delectus vero
-              a excepturi sapiente fuga natus sint tempore obcaecati dolore ea
-              omnis culpa, eveniet quod!
-            </p>
-          </div>
+
+
         </div>
       </template>
       <!--noresult-->
