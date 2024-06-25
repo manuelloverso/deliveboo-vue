@@ -11,31 +11,40 @@ export default {
 };
 </script>
 <template>
-  <header
-    class="py-3 px-5"
-    :class="
-      $route.name == 'home' || $route.name == 'checkout' ? 'bg-transparent' : ''
-    "
-  >
-    <nav class="d-flex justify-content-between align-items-center">
-      <div class="logo">
-        <a href="http://localhost:5173/">
-          <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
-        </a>
-      </div>
-      <div class="links d-flex gap-5 align-items-center">
-        <div class="cart-link">
-          <div v-if="store.cart.length > 0" class="items-number">
-            {{ store.cart.length }}
-          </div>
-          <RouterLink :to="{ name: 'checkout' }"
-            ><i class="fa-solid fa-cart-shopping fa-lg"></i
-          ></RouterLink>
+  <header class="py-3 px-5" :class="$route.name == 'home' || $route.name == 'checkout' ? 'bg-transparent' : ''">
+
+    <nav class=" navbar navbar-expand-lg">
+      <div class="container-fluid">
+
+        <div class="logo">
+          <a href="http://localhost:5173/">
+            <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
+          </a>
         </div>
-        <ul class="user-links list-unstyled d-flex gap-4 m-0">
-          <li><a href="http://127.0.0.1:8000/login">Login</a></li>
-          <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
-        </ul>
+
+
+        <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+
+
+          <div class="links d-flex gap-5 align-items-center">
+            <div class="cart-link">
+              <div v-if="store.cart.length > 0" class="items-number">
+                {{ store.cart.length }}
+              </div>
+              <RouterLink :to="{ name: 'checkout' }"><i class="fa-solid fa-cart-shopping fa-lg"></i></RouterLink>
+            </div>
+            <ul class="user-links list-unstyled d-flex gap-4 m-0">
+              <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+              <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
+            </ul>
+          </div>
+
+
+        </div>
       </div>
     </nav>
   </header>
@@ -48,6 +57,7 @@ header {
     display: block;
     width: 100px;
     transition: transform 0.2s ease;
+
     &:hover {
       transform: scale(1.1);
     }
@@ -70,10 +80,12 @@ header {
       font-weight: 800;
       font-size: 1.2rem;
     }
+
     a {
       color: white;
     }
   }
+
   .user-links {
     & li {
       & a {

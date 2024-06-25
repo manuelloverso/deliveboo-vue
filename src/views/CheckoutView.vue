@@ -378,7 +378,7 @@ export default {
 </template>
 <style scoped>
 .checkout-main {
-  min-height: 70vh;
+  min-height: calc(100vh - 248px);
   background: rgb(250, 89, 0);
   background: linear-gradient(
     90deg,

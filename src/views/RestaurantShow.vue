@@ -1,12 +1,14 @@
 <script>
 import { store } from "../store.js";
 import AppHeader from "../components/AppHeader.vue";
+import Loading from "../components/Loading.vue";
 import axios from "axios";
 
 export default {
   name: "RestaurantShow",
   components: {
     AppHeader,
+    Loading
   },
   data() {
     return {
@@ -45,6 +47,7 @@ export default {
       });
       return found;
     },
+
   },
 
   mounted() {
@@ -60,7 +63,7 @@ export default {
 <template>
   <main>
     <div class="container py-3">
-      <template v-if="loading == false">
+      <template v-if="loading == false" loading="lazy">
         <div class="back_link">
           <a href="http://localhost:5173/"
             ><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a
@@ -82,14 +85,10 @@ export default {
             Rivedi il tuo ordine
           </button>
 
-          <div
-            class="offcanvas offcanvas-start"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasScrolling"
-            aria-labelledby="offcanvasScrollingLabel"
-          >
+
+          <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+            id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                 Controlla il tuo ordine e procedi al checkout
@@ -127,8 +126,10 @@ export default {
                         +
                       </div>
                     </td>
-                    <td>{{ plate.plateObj.name }}</td>
-                    <td>{{ plate.plateObj.price * plate.quantity }}€</td>
+
+                    <td>{{ plate.plateObj.name }} </td>
+                    <td>{{ (plate.plateObj.price * plate.quantity).toFixed(2) }}€</td>
+
                   </tr>
                   <tr>
                     <td colspan="2"><strong>Totale:</strong></td>
@@ -153,22 +154,14 @@ export default {
           </div>
         </div>
 
-        <div class="restaurant-info">
+        <div class="restaurant-info my-5">
           <!-- Image -->
-          <img
-            v-if="restaurant.image.startsWith('http')"
-            class="restaurant-img"
-            :src="restaurant.image"
-            alt=""
-          />
-          <img
-            v-else
-            class="restaurant-img"
-            :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-            alt=""
-          />
 
-          <div class="text-left px-4">
+          <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt=""/>
+          <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt=""/>
+
+
+          <div class="text-left px-4 mb-4">
             <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
             <div class="d-flex gap-1 felx-wrap">
               <div
@@ -190,10 +183,10 @@ export default {
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 my-5">
           <template v-if="plates.length > 0">
-            <h2>Piatti</h2>
-            <div
-              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
-            >
+
+            <h2 class="mb-3">Piatti</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+
               <template v-for="plate in plates">
                 <div v-if="plate.is_visible == true" class="col pb-4">
                   <div class="plate-card">
@@ -307,7 +300,9 @@ export default {
           </div>
         </div>
       </template>
-      <h3 v-else>Loading..</h3>
+      <template v-else>
+        <Loading />
+      </template>
     </div>
   </main>
 </template>
@@ -363,6 +358,7 @@ export default {
 
 .cart-button {
   position: fixed;
+  left: 0;
   width: 85%;
 
   button {
