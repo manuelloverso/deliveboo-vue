@@ -214,12 +214,12 @@ export default {
       </div>
       <div class="right col-5 p-4">
         <div class="card p-4 form-card">
-          <h2 class="mb-3">Procedi all'ordine</h2>
+          <h2 class="mb-3 px-3">Procedi all'ordine</h2>
           <form
             @submit.prevent="sendOrder()"
             id="payment-form"
             method=""
-            class="card-form"
+            class="card-form px-3"
           >
             <div class="mb-3">
               <label for="customer_name" class="form-label">Nome</label>
