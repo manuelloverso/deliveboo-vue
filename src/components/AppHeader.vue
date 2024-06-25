@@ -31,7 +31,7 @@ export default {
 
 
           <div class="links d-flex gap-5 align-items-center">
-            <div class="cart-link">
+            <div class="cart-link ms-auto">
               <div v-if="store.cart.length > 0" class="items-number">
                 {{ store.cart.length }}
               </div>

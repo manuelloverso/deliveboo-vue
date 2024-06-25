@@ -161,7 +161,7 @@ export default {
   background-position: center;
 
   .jumbo-text {
-    padding-top: 15rem;
+    padding-top: 20rem;
     text-shadow: 3px 3px 4px #333;
   }
 
