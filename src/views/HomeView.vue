@@ -76,8 +76,8 @@ export default {
     <!-- Jumbotron -->
     <div class="jumbotron">
       <div class="overlay">
-        <div class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50">
-          <h1 class="fw-bold">Benvenuto su Deliverome</h1>
+        <div class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50 text-center">
+          <h1 class="fw-bold ">Benvenuto su Deliverome</h1>
           <br />
           <h2>Il miglior cibo della capitale direttamente a casa tua</h2>
 
@@ -172,6 +172,16 @@ export default {
   & h1 {
     font-size: 4.5rem;
     margin: 0;
+     @media (max-width: 576px){
+      font-size: 2.8rem ;
+    }
+
+    & h2{
+      @media (max-width: 576){
+        font-size: 1.5rem;
+      }
+    }
+
   }
 
   .overlay {
@@ -241,7 +251,7 @@ export default {
 .about_us{
   & img{
   min-width: 220px;
-    
+   
   }
 }
 .restaurants-container {
