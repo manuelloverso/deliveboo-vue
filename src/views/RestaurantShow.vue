@@ -72,18 +72,19 @@ export default {
         </div>
 
         <!-- Carrello -->
+
         <div
           v-if="store.getTotal() > 0"
           class="cart-button d-flex justify-content-end"
         >
           <button
-            class=""
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasScrolling"
             aria-controls="offcanvasScrolling"
             @click="store.temporaryPlate = null"
           >
+
             Rivedi il tuo ordine
           </button>
 
@@ -168,8 +169,14 @@ export default {
           </div>
         </div>
 
-        <div class="restaurant-info my-5">
+        <div class="restaurant-info my-3">
           <!-- Image -->
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <img v-if="restaurant.image.startsWith('http')" class="restaurant-img img-fluid" :src="restaurant.image" alt="" />
+              <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+                alt="" />
+            </div>
 
           <img
             v-if="restaurant.image.startsWith('http')"
@@ -184,27 +191,31 @@ export default {
             alt=""
           />
 
-          <div class="text-left px-4 mb-4">
-            <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
-            <div class="d-flex gap-1 felx-wrap">
-              <div
-                v-for="restaurantType in restaurant.types"
-                class="types_restaurant fw-semibold mb-4"
-              >
-                {{ restaurantType.name }}
+
+            <div class="col py-4">
+              <div class="text-left px-4">
+                <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
+                <div class="d-flex gap-1 felx-wrap">
+                  <div v-for="restaurantType in restaurant.types" class="types_restaurant fw-semibold mb-4">
+                    {{ restaurantType.name }}
+                  </div>
+                </div>
+                <p class="fs-6 fw-light">
+                  <strong>Indirizzo: </strong>{{ restaurant.address }}
+                </p>
+                <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
+                  <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
+                </p>
+
               </div>
             </div>
-            <p class="fs-6 fw-light">
-              <strong>Indirizzo: </strong>{{ restaurant.address }}
-            </p>
-            <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
-              <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
-            </p>
+
           </div>
+
         </div>
 
         <!-- Piatti -->
-        <div class="restaurant-plates px-4 py-1 my-5">
+        <div class="restaurant-plates px-4 py-1 mb-4">
           <template v-if="plates.length > 0">
             <h2 class="mb-3">Piatti</h2>
             <div
@@ -299,6 +310,7 @@ export default {
     height: 230px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     border-radius: 100px;
+    
   }
 
   .types_restaurant {
@@ -324,7 +336,7 @@ export default {
 }
 
 .cart-button {
-  position: fixed;
+  position: absolute;
   left: 0;
   width: 85%;
 
@@ -385,5 +397,7 @@ export default {
       }
     }
   }
+
+ 
 }
 </style>
