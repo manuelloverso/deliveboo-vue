@@ -80,10 +80,6 @@ export default {
               this.customer_address = null;
               this.customer_phone = null;
               this.customer_email = null;
-              const myModal = new bootstrap.Modal(
-                document.getElementById("modalId")
-              );
-              myModal.hide();
               this.$router.push({ name: "accepted" });
             }
           })
@@ -130,15 +126,8 @@ export default {
 </script>
 <template>
   <main class="checkout-main">
-    <div class="container py-4 d-flex text-white">
-      <div class="left col-6 pt-5 pe-4">
-        <h1 class="fs-1 mb-3">Ci siamo quasi..</h1>
-        <h3 class="fs-2 mb-3">Rivedi il tuo ordine</h3>
-        <h3>
-          Una volta confermato, sarà direttamente a casa tua in pochi minuti
-        </h3>
-      </div>
-      <div class="col-6 p-4">
+    <div class="container py-4 d-flex justify-content-between text-white">
+      <div class="col-5 p-4">
         <template v-if="store.cart.length > 0">
           <div v-if="!loading" class="cart">
             <div
@@ -213,156 +202,6 @@ export default {
               <span>Totale Ordine:</span>
               <strong>{{ store.getTotal() }}€</strong>
             </div>
-
-            <button
-              class="payment-btn"
-              data-bs-toggle="modal"
-              data-bs-target="#modalId"
-            >
-              Vai al pagamento
-            </button>
-          </div>
-
-          <!-- Modal Body -->
-          <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-          <div
-            class="modal fade"
-            id="modalId"
-            tabindex="-1"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            role="dialog"
-            aria-labelledby="modalTitleId"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
-              role="document"
-            >
-              <div class="modal-content text-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modalTitleId">Pagamento</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <form
-                    @submit.prevent="sendOrder()"
-                    class="text-dark"
-                    id="payment-form"
-                    method=""
-                  >
-                    <div class="mb-3">
-                      <label for="customer_name" class="form-label">Nome</label>
-                      <input
-                        required
-                        min="2"
-                        max="50"
-                        class="form-control"
-                        v-model="customer_name"
-                        type="text"
-                        name="customer_name"
-                        id="customer_name"
-                      />
-
-                      <div class="text-danger" v-if="errors.customer_name">
-                        {{ errors.customer_name }}
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="customer_lastname" class="form-label"
-                        >Cognome</label
-                      >
-                      <input
-                        required
-                        min="2"
-                        max="50"
-                        class="form-control"
-                        v-model="customer_lastname"
-                        type="text"
-                        name="customer_lastname"
-                        id="customer_lastname"
-                      />
-                      <div class="text-danger" v-if="errors.customer_lastname">
-                        {{ errors.customer_lastname }}
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="customer_address" class="form-label"
-                        >Indirizzo</label
-                      >
-                      <input
-                        class="form-control"
-                        v-model="customer_address"
-                        type="text"
-                        name="customer_address"
-                        id="customer_address"
-                      />
-                      <div class="text-danger" v-if="errors.customer_address">
-                        {{ errors.customer_address }}
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="customer_phone" class="form-label"
-                        >Num. di telefono</label
-                      >
-                      <input
-                        class="form-control"
-                        v-model="customer_phone"
-                        type="text"
-                        name="customer_phone"
-                        id="customer_phone"
-                      />
-                      <div class="text-danger" v-if="errors.customer_phone">
-                        {{ errors.customer_phone }}
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="customer_email" class="form-label"
-                        >Email</label
-                      >
-                      <input
-                        class="form-control"
-                        v-model="customer_email"
-                        type="text"
-                        name="customer_email"
-                        id="customer_email"
-                      />
-                      <div class="text-danger" v-if="errors.customer_email">
-                        {{ errors.customer_email }}
-                      </div>
-                    </div>
-                    <div id="dropin-container"></div>
-                    <p>
-                      <strong>Totale: {{ store.getTotal() }}</strong>
-                    </p>
-                    <button class="btn btn-primary" type="submit">Paga</button>
-                    <input
-                      type="hidden"
-                      id="nonce"
-                      name="payment_method_nonce"
-                    />
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Chiudi
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </template>
 
@@ -371,6 +210,103 @@ export default {
           <button @click="this.$router.go(-1)" class="payment-btn">
             Continua ad ordinare
           </button>
+        </div>
+      </div>
+      <div class="right col-5 p-4">
+        <div class="card p-4 form-card">
+          <h2 class="mb-3">Procedi all'ordine</h2>
+          <form
+            @submit.prevent="sendOrder()"
+            id="payment-form"
+            method=""
+            class="card-form"
+          >
+            <div class="mb-3">
+              <label for="customer_name" class="form-label">Nome</label>
+              <input
+                required
+                min="2"
+                max="50"
+                class="form-control"
+                v-model="customer_name"
+                type="text"
+                name="customer_name"
+                id="customer_name"
+              />
+
+              <div class="text-danger" v-if="errors.customer_name">
+                {{ errors.customer_name }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="customer_lastname" class="form-label">Cognome</label>
+              <input
+                required
+                min="2"
+                max="50"
+                class="form-control"
+                v-model="customer_lastname"
+                type="text"
+                name="customer_lastname"
+                id="customer_lastname"
+              />
+              <div class="text-danger" v-if="errors.customer_lastname">
+                {{ errors.customer_lastname }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="customer_address" class="form-label">Indirizzo</label>
+              <input
+                class="form-control"
+                v-model="customer_address"
+                type="text"
+                name="customer_address"
+                id="customer_address"
+              />
+              <div class="text-danger" v-if="errors.customer_address">
+                {{ errors.customer_address }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="customer_phone" class="form-label"
+                >Num. di telefono</label
+              >
+              <input
+                required
+                class="form-control"
+                v-model="customer_phone"
+                type="text"
+                name="customer_phone"
+                id="customer_phone"
+              />
+              <div class="text-danger" v-if="errors.customer_phone">
+                {{ errors.customer_phone }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="customer_email" class="form-label">Email</label>
+              <input
+                class="form-control"
+                v-model="customer_email"
+                type="text"
+                name="customer_email"
+                id="customer_email"
+              />
+              <div class="text-danger" v-if="errors.customer_email">
+                {{ errors.customer_email }}
+              </div>
+            </div>
+            <div id="dropin-container"></div>
+            <p>
+              <strong>Totale: {{ store.getTotal() }}</strong>
+            </p>
+            <button class="payment-btn" type="submit">Paga</button>
+            <input type="hidden" id="nonce" name="payment_method_nonce" />
+          </form>
         </div>
       </div>
     </div>
@@ -388,8 +324,14 @@ export default {
   padding-top: 8rem;
   padding-bottom: 4rem;
 
-  .left {
-    padding-top: 2rem;
+  .form-card {
+    box-shadow: black 0 0 20px 0;
+    border-radius: 20px;
+  }
+
+  .card-form {
+    max-height: 70vh;
+    overflow-y: auto;
   }
 
   .cart {
@@ -425,21 +367,20 @@ export default {
       margin: 20px 0;
       border-top: 1px solid var(--text-dark);
     }
-
-    .payment-btn {
-      display: block;
-      margin: auto;
-      padding: 15px;
-      background-color: var(--accent);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-      &:hover {
-        background-color: #e8590c;
-      }
-    }
+  }
+}
+.payment-btn {
+  display: block;
+  margin: auto;
+  padding: 15px;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #e8590c;
   }
 }
 </style>
