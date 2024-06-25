@@ -16,7 +16,6 @@ export default {
       restaurant: null,
       plates: [],
       loading: true,
-      
     };
   },
 
@@ -36,7 +35,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-
     },
 
     isInCart(name) {
@@ -47,14 +45,6 @@ export default {
       });
       return found;
     },
-
-    getTotal(){
-      let total = 0;
-      store.cart.forEach(element => {
-      total = total + element.plateObj.price * element.quantity
-    });
-    return total 
-  }
   },
 
   mounted() {
@@ -63,11 +53,6 @@ export default {
     this.id = split[split.length - 1];
 
     this.singleRestaurant();
-
-    
-
-
-
   },
 };
 </script>
@@ -77,27 +62,46 @@ export default {
     <div class="container py-3">
       <template v-if="loading == false">
         <div class="back_link">
-          <a href="http://localhost:5173/"><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a>
+          <a href="http://localhost:5173/"
+            ><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a
+          >
         </div>
 
-
         <!-- Carrello -->
-        <div v-if="getTotal() > 0" class="cart-button d-flex justify-content-end">
-          <button class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-            aria-controls="offcanvasScrolling">
+        <div
+          v-if="store.getTotal() > 0"
+          class="cart-button d-flex justify-content-end"
+        >
+          <button
+            class=""
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling"
+          >
             Rivedi il tuo ordine
           </button>
 
-
-          <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-            id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+          <div
+            class="offcanvas offcanvas-start"
+            data-bs-scroll="true"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="offcanvasScrolling"
+            aria-labelledby="offcanvasScrollingLabel"
+          >
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Controlla il tuo ordine e procedi al checkout
+              <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+                Controlla il tuo ordine e procedi al checkout
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
             </div>
             <div class="offcanvas-body">
-
               <table class="table">
                 <thead>
                   <tr>
@@ -109,25 +113,41 @@ export default {
                 <tbody>
                   <tr v-for="plate in store.cart">
                     <td scope="row" class="d-flex gap-1">
-                      <div class="remBtn" @click="store.removePlate(plate.plateObj.name, plates)">-</div>{{
-                        plate.quantity }}
-                      <div class="addBtn" @click="store.addPlate(plate.plateObj.name, plates)">+</div>
+                      <div
+                        class="remBtn"
+                        @click="store.removePlate(plate.plateObj)"
+                      >
+                        -
+                      </div>
+                      {{ plate.quantity }}
+                      <div
+                        class="addBtn"
+                        @click="store.addPlate(plate.plateObj)"
+                      >
+                        +
+                      </div>
                     </td>
-                    <td>{{ plate.plateObj.name }} </td>
+                    <td>{{ plate.plateObj.name }}</td>
                     <td>{{ plate.plateObj.price * plate.quantity }}€</td>
                   </tr>
                   <tr>
                     <td colspan="2"><strong>Totale:</strong></td>
-                    <td>{{ getTotal() }}€</td>
+                    <td>{{ store.getTotal() }}€</td>
                   </tr>
                 </tbody>
               </table>
               <div class="d-flex justify-content-around">
-                <RouterLink :to="{ name: 'checkout' }" class="btn bg-primary text-white">Procedi al Checkout</RouterLink>
-                <div @click="store.emptyCart()" class="btn bg-danger text-white">
+                <RouterLink
+                  :to="{ name: 'checkout' }"
+                  class="btn bg-primary text-white"
+                  >Procedi al Checkout</RouterLink
+                >
+                <div
+                  @click="store.emptyCart()"
+                  class="btn bg-danger text-white"
+                >
                   <i class="fa-solid fa-trash-can"></i> Svuota Carrello
                 </div>
-
               </div>
             </div>
           </div>
@@ -135,13 +155,26 @@ export default {
 
         <div class="restaurant-info">
           <!-- Image -->
-          <img v-if="restaurant.image.startsWith('http')" class="restaurant-img" :src="restaurant.image" alt="" />
-          <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+          <img
+            v-if="restaurant.image.startsWith('http')"
+            class="restaurant-img"
+            :src="restaurant.image"
+            alt=""
+          />
+          <img
+            v-else
+            class="restaurant-img"
+            :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+            alt=""
+          />
 
           <div class="text-left px-4">
             <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
             <div class="d-flex gap-1 felx-wrap">
-              <div v-for="restaurantType in restaurant.types" class="types_restaurant fw-semibold mb-4">
+              <div
+                v-for="restaurantType in restaurant.types"
+                class="types_restaurant fw-semibold mb-4"
+              >
                 {{ restaurantType.name }}
               </div>
             </div>
@@ -154,24 +187,42 @@ export default {
           </div>
         </div>
 
-
-
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 my-5">
           <template v-if="plates.length > 0">
             <h2>Piatti</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            <div
+              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
+            >
               <template v-for="plate in plates">
                 <div v-if="plate.is_visible == true" class="col pb-4">
                   <div class="plate-card">
                     <!-- Image -->
                     <template v-if="plate.image != null">
-                      <img loading="lazy" v-if="plate.image.startsWith('http')" class="plate-img" :src="plate.image"
-                        alt="" />
-                      <img loading="lazy" v-else class="plate-img" :src="'http://127.0.0.1:8000' + '/storage/' + plate.image
-                        " alt="" />
+                      <img
+                        loading="lazy"
+                        v-if="plate.image.startsWith('http')"
+                        class="plate-img"
+                        :src="plate.image"
+                        alt=""
+                      />
+                      <img
+                        loading="lazy"
+                        v-else
+                        class="plate-img"
+                        :src="
+                          'http://127.0.0.1:8000' + '/storage/' + plate.image
+                        "
+                        alt=""
+                      />
                     </template>
-                    <img loading="lazy" v-else class="plate-img" src="/public/img/plate-default.jpg" alt="" />
+                    <img
+                      loading="lazy"
+                      v-else
+                      class="plate-img"
+                      src="/public/img/plate-default.jpg"
+                      alt=""
+                    />
 
                     <div class="plate-info">
                       <div>
@@ -181,14 +232,23 @@ export default {
                       </div>
 
                       <div class="buttons d-flex gap-3">
-                        <button @click="store.addPlate(plate.name, plates)" class="add-plate">
+                        <button
+                          @click="store.addPlate(plate)"
+                          class="add-plate"
+                        >
                           <i class="fa-solid fa-plus"></i>
                         </button>
-                        <button v-if="isInCart(plate.name)" class="btn btn-dark">
+                        <button
+                          v-if="isInCart(plate.name)"
+                          class="btn btn-dark"
+                        >
                           {{ store.getQuantity(plate.name) }}
                         </button>
-                        <button v-if="isInCart(plate.name)" @click="store.removePlate(plate.name, plates)"
-                          class="add-plate">
+                        <button
+                          v-if="isInCart(plate.name)"
+                          @click="store.removePlate(plate)"
+                          class="add-plate"
+                        >
                           <i class="fa-solid fa-minus"></i>
                         </button>
                       </div>
@@ -205,21 +265,41 @@ export default {
 
         <!-- modale che appare se si tenta di aggiungere piatti da ristoranti diversi -->
         <!-- Modal Body -->
-        <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-          aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+        <div
+          class="modal fade"
+          id="modalId"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modalTitleId"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+            role="document"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="modalTitleId">Altro ristorante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </div>
               <div class="modal-body">
                 Puoi ordinare solamente da un ristorante alla volta , desideri
                 svuotare il carrello e ordinare da
-                <strong>{{ restaurant.restaurant_name }}</strong>?
+                <strong>{{ restaurant.restaurant_name }}</strong
+                >?
               </div>
               <div class="modal-footer">
-                <button @click="store.emptyCart()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+                <button
+                  @click="store.emptyCart()"
+                  data-bs-dismiss="modal"
+                  type="button"
+                  class="btn btn-danger"
+                >
                   Svuota il carrello
                 </button>
               </div>
@@ -246,8 +326,6 @@ export default {
     }
   }
 }
-
-
 
 .restaurant-info {
   display: flex;
@@ -295,9 +373,7 @@ export default {
     font-weight: bold;
     color: white;
   }
-
 }
-
 
 .restaurant-plates {
   .plate-card {
