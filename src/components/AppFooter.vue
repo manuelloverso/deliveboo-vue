@@ -9,73 +9,79 @@ export default {
 <template>
   <footer class="section_footer">
 
-    <div class="container d-flex gap-5 py-5 text-white fs-6 fw-lighter text-start">
+    <div class="container  py-5 text-white fs-6 fw-lighter text-start">
 
-      <div>
-        <h5>Scopri Deliverome</h5>
-        <ul>
-          <li><a href="">Chi siamo</a>
-            
-          </li>
-          <li><a href="">Ristoranti</a>
-            
-          </li>
-          <li><a href="">Lavora con noi</a>
-           
-          </li>
-          <li><a href="">Diventa nostro partner</a>
-            
-          </li>
-          <li><a href="">Altro</a>
-           
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col d-flex gap-5 mb-3">
+          <div>
+            <h5>Scopri Deliverome</h5>
+            <ul>
+              <li><a href="">Chi siamo</a>
+
+              </li>
+              <li><a href="">Ristoranti</a>
+
+              </li>
+              <li><a href="">Lavora con noi</a>
+
+              </li>
+              <li><a href="">Diventa nostro partner</a>
+
+              </li>
+              <li><a href="">Altro</a>
+
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h5>Note legali</h5>
+            <ul>
+              <li><a href="">Termini & Condizioni</a>
+
+              </li>
+              <li><a href="">Informativa sulla privacy</a>
+
+              </li>
+              <li><a href="">Cookies</a>
+
+              </li>
+            </ul>
+          </div>
+          <div>
+
+            <h5>Aiuto</h5>
+            <ul>
+              <li><a href="">Contatti</a>
+
+              </li>
+              <li><a href="">FAQ</a>
+
+              </li>
+              <li><a href="">Tipi di cucina</a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="col-6 col-sm-4 ">
+          <h5>Seguici sui nostri canali social</h5>
+          <ul class="d-flex gap-4 ">
+            <li><a href=""><i class="fa-brands fa-facebook fs-3 py-3"></i></a>
+
+            </li>
+            <li><a href=""><i class="fa-brands fa-instagram fs-3 py-3"></i></a>
+
+            </li>
+            <li><a href=""><i class="fa-brands fa-twitter fs-3 py-3"></i></a>
+
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div>
-        <h5>Note legali</h5>
-        <ul>
-          <li><a href="">Termini & Condizioni</a>
-            
-          </li>
-          <li><a href="">Informativa sulla privacy</a>
-            
-          </li>
-          <li><a href="">Cookies</a>
-           
-          </li>
-        </ul>
-      </div>
-      <div>
-
-        <h5>Aiuto</h5>
-        <ul>
-          <li><a href="">Contatti</a>
-            
-          </li>
-          <li><a href="">FAQ</a>
-            
-          </li>
-          <li><a href="">Tipi di cucina</a>
-            
-          </li>
-        </ul>
-      </div>
-
-      <div class="ms-auto">
-        <h5>Seguici sui nostri canali social</h5>
-        <ul class="d-flex gap-4 justify-content-center">
-          <li><a href=""><i class="fa-brands fa-facebook fs-3 py-3"></i></a>
-            
-          </li>
-          <li><a href=""><i class="fa-brands fa-instagram fs-3 py-3"></i></a>
-            
-          </li>
-          <li><a href=""><i class="fa-brands fa-twitter fs-3 py-3"></i></a>
-            
-          </li>
-        </ul>
-      </div>
 
     </div>
 
@@ -85,38 +91,42 @@ export default {
 <style scoped>
 .section_footer {
   background-color: #322a2c;
-  
+
 
 }
 
-h5 , a{
+h5,
+a {
   color: #a38e93b0;
 }
-ul{
+
+ul {
   margin: 0;
   padding: 0;
 }
-li{
+
+li {
   list-style: none;
 }
 
-a{
+a {
   text-decoration: none;
   font-size: smaller;
-  &:hover{
+
+  &:hover {
     color: #d6d6d6;
   }
 }
 
-.fa-facebook:hover{
+.fa-facebook:hover {
   color: rgb(12, 79, 213);
 }
 
-.fa-instagram:hover{
+.fa-instagram:hover {
   color: rgb(183, 0, 152);
 }
 
-.fa-twitter:hover{
+.fa-twitter:hover {
   color: rgb(0, 149, 255);
 }
 </style>
