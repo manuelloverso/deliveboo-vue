@@ -21,28 +21,28 @@ export default {
             <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
           </a>
         </div>
-
-
-        <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="d-flex hstack">
+          <div class="cart-link mx-4 align-items-center">
+            <div v-if="store.cart.length > 0" class="items-number">
+              {{ store.cart.length }}
+            </div>
+            <RouterLink :to="{ name: 'checkout' }"><i class="fa-solid fa-cart-shopping fa-lg"></i></RouterLink>
+          </div>
+          <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <!--collapse-->
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 
-
           <div class="links d-flex gap-5 align-items-center">
-            <div class="cart-link ms-auto">
-              <div v-if="store.cart.length > 0" class="items-number">
-                {{ store.cart.length }}
-              </div>
-              <RouterLink :to="{ name: 'checkout' }"><i class="fa-solid fa-cart-shopping fa-lg"></i></RouterLink>
-            </div>
-            <ul class="user-links list-unstyled d-flex gap-4 m-0">
+            <ul class="user-links list-unstyled d-flex gap-4 m-0 ms-auto">
               <li><a href="http://127.0.0.1:8000/login">Login</a></li>
               <li><a href="http://127.0.0.1:8000/register">Registrati</a></li>
             </ul>
           </div>
-
 
         </div>
       </div>
