@@ -59,7 +59,7 @@ export default {
 <template>
   <section class="types-slider">
     <h2 class="text-white text-center mb-5 fw-light">
-      Qualsiasi cosa tu abbia voglia di mangiare lo trovi su Deliverome
+      Qualsiasi cosa tu abbia voglia di mangiare lo trovi da noi
     </h2>
     <div class="splide" aria-label="types">
       <div class="splide__track">
