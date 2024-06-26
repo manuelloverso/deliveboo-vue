@@ -16,6 +16,10 @@ const router = createRouter({
     { path: "/restaurants/:slug-:id", component: RestaurantShow },
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ],
+
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { top: 0 };
+  },
 });
 
 export default router;
