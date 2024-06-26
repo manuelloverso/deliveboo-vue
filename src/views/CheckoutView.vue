@@ -109,12 +109,14 @@ export default {
 </script>
 <template>
   <main class="checkout-main">
-    <div class="container py-4 d-flex justify-content-between text-white">
-      <div class="row">
-        <div class="col-12 col-lg-6 p-4">
+    <div class="container py-4 d-flex justify-content-center text-white">
+      <div class="row justify-content-center w-100">
+        <div class="col-12 col-lg-6 mb-4 mb-lg-0 p-lg-5">
           <template v-if="store.cart.length > 0">
             <div class="cart">
-              <div class="header d-flex justify-content-between align-items-center">
+              <div
+                class="header d-flex justify-content-between align-items-center"
+              >
                 <div class="info">
                   <h2 class="mb-3">Riepilogo</h2>
                   <h4>{{ restaurant_name }}</h4>
@@ -124,31 +126,61 @@ export default {
                 </button>
               </div>
               <div class="items">
-                <div class="item d-flex justify-content-between" v-for="item in store.cart">
+                <div
+                  class="item d-flex justify-content-between"
+                  v-for="item in store.cart"
+                >
                   <div class="pic-name">
                     <!-- Image -->
                     <template v-if="item.plateObj.image != null">
-                      <img loading="lazy" v-if="item.plateObj.image.startsWith('http')" class="plate-img"
-                        :src="item.plateObj.image" alt="" />
-                      <img loading="lazy" v-else class="plate-img" :src="'http://127.0.0.1:8000' +
-                        '/storage/' +
-                        item.plateObj.image
-                        " alt="" />
+                      <img
+                        loading="lazy"
+                        v-if="item.plateObj.image.startsWith('http')"
+                        class="plate-img"
+                        :src="item.plateObj.image"
+                        alt=""
+                      />
+                      <img
+                        loading="lazy"
+                        v-else
+                        class="plate-img"
+                        :src="
+                          'http://127.0.0.1:8000' +
+                          '/storage/' +
+                          item.plateObj.image
+                        "
+                        alt=""
+                      />
                     </template>
-                    <img loading="lazy" v-else class="plate-img" src="/public/img/plate-default.jpg" alt="" />
+                    <img
+                      loading="lazy"
+                      v-else
+                      class="plate-img"
+                      src="/public/img/plate-default.jpg"
+                      alt=""
+                    />
 
                     <!-- Plate Name -->
                     <span>
-                      <strong>{{ item.plateObj.name }}</strong></span>
+                      <strong>{{ item.plateObj.name }}</strong></span
+                    >
                   </div>
                   <!-- actions -->
-                  <div class="actions-btns d-flex gap-2 align-items-center me-2">
+                  <div
+                    class="actions-btns d-flex gap-2 align-items-center me-2"
+                  >
                     <strong>{{ sumPrice(item) }}€</strong>
-                    <button class="btn btn-dark" @click="store.addPlate(item.plateObj, restaurant_name)">
+                    <button
+                      class="btn btn-dark"
+                      @click="store.addPlate(item.plateObj, restaurant_name)"
+                    >
                       <i class="fa-solid fa-plus"></i>
                     </button>
                     <span>{{ item.quantity }}x</span>
-                    <button class="btn btn-dark" @click="store.removePlate(item.plateObj)">
+                    <button
+                      class="btn btn-dark"
+                      @click="store.removePlate(item.plateObj)"
+                    >
                       <i class="fa-solid fa-minus"></i>
                     </button>
                   </div>
@@ -169,15 +201,28 @@ export default {
             </button>
           </div>
         </div>
-        <div class="right col-12 col-lg-6 p-4">
+        <div class="right col-12 col-lg-6 p-lg-5">
           <div v-if="store.cart.length > 0" class="card p-4 form-card">
             <h2 class="mb-3 px-3">Procedi all'ordine</h2>
-            <span class="text-warning fs-5">⚠️Tutti i campi sono obbligatori</span>
-            <form @submit.prevent="sendOrder()" id="payment-form" method="" class="card-form px-3">
+            <span class="text-warning fs-5"
+              >⚠️Tutti i campi sono obbligatori</span
+            >
+            <form
+              @submit.prevent="sendOrder()"
+              id="payment-form"
+              method=""
+              class="card-form px-3"
+            >
               <div class="mb-3">
                 <label for="customer_name" class="form-label">Nome</label>
-                <input max="50" class="form-control" v-model="customer_name" type="text" name="customer_name"
-                  id="customer_name" />
+                <input
+                  max="50"
+                  class="form-control"
+                  v-model="customer_name"
+                  type="text"
+                  name="customer_name"
+                  id="customer_name"
+                />
 
                 <div class="text-danger" v-if="errors.customer_name">
                   {{ errors.customer_name }}
@@ -185,27 +230,52 @@ export default {
               </div>
 
               <div class="mb-3">
-                <label for="customer_lastname" class="form-label">Cognome</label>
-                <input required min="2" max="50" class="form-control" v-model="customer_lastname" type="text"
-                  name="customer_lastname" id="customer_lastname" />
+                <label for="customer_lastname" class="form-label"
+                  >Cognome</label
+                >
+                <input
+                  required
+                  min="2"
+                  max="50"
+                  class="form-control"
+                  v-model="customer_lastname"
+                  type="text"
+                  name="customer_lastname"
+                  id="customer_lastname"
+                />
                 <div class="text-danger" v-if="errors.customer_lastname">
                   {{ errors.customer_lastname }}
                 </div>
               </div>
 
               <div class="mb-3">
-                <label for="customer_address" class="form-label">Indirizzo</label>
-                <input class="form-control" v-model="customer_address" type="text" name="customer_address"
-                  id="customer_address" />
+                <label for="customer_address" class="form-label"
+                  >Indirizzo</label
+                >
+                <input
+                  class="form-control"
+                  v-model="customer_address"
+                  type="text"
+                  name="customer_address"
+                  id="customer_address"
+                />
                 <div class="text-danger" v-if="errors.customer_address">
                   {{ errors.customer_address }}
                 </div>
               </div>
 
               <div class="mb-3">
-                <label for="customer_phone" class="form-label">Num. di telefono</label>
-                <input required class="form-control" v-model="customer_phone" type="text" name="customer_phone"
-                  id="customer_phone" />
+                <label for="customer_phone" class="form-label"
+                  >Num. di telefono</label
+                >
+                <input
+                  required
+                  class="form-control"
+                  v-model="customer_phone"
+                  type="text"
+                  name="customer_phone"
+                  id="customer_phone"
+                />
                 <div class="text-danger" v-if="errors.customer_phone">
                   {{ errors.customer_phone }}
                 </div>
@@ -213,8 +283,13 @@ export default {
 
               <div class="mb-3">
                 <label for="customer_email" class="form-label">Email</label>
-                <input class="form-control" v-model="customer_email" type="text" name="customer_email"
-                  id="customer_email" />
+                <input
+                  class="form-control"
+                  v-model="customer_email"
+                  type="text"
+                  name="customer_email"
+                  id="customer_email"
+                />
                 <div class="text-danger" v-if="errors.customer_email">
                   {{ errors.customer_email }}
                 </div>
@@ -232,7 +307,6 @@ export default {
           </div>
         </div>
       </div>
-
     </div>
   </main>
 </template>
@@ -240,9 +314,11 @@ export default {
 .checkout-main {
   min-height: calc(100vh - 248px);
   background: rgb(250, 89, 0);
-  background: linear-gradient(90deg,
-      rgba(250, 89, 0, 1) 9%,
-      rgba(255, 213, 0, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(250, 89, 0, 1) 9%,
+    rgba(255, 213, 0, 1) 100%
+  );
   padding-top: 8rem;
   padding-bottom: 4rem;
 
