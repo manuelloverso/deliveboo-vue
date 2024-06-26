@@ -20,9 +20,9 @@ export default {
     <nav class="header-container navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
         <div class="logo">
-          <a href="http://localhost:5173/">
+          <RouterLink :to="{ name: 'home' }">
             <img src="/public/img/deliverome-circledark-logo.svg" alt="" />
-          </a>
+          </RouterLink>
         </div>
         <div class="d-flex hstack">
           <button
