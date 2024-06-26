@@ -131,11 +131,7 @@ export default {
       <template v-if="activeTypes.length == 0">
         <div class="container my-5 about_us py-5">
           <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 justify-content-center">
-              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
-            </div>
             <div class="col-12 col-sm-6 col-md-8">
-              
               <p class="text-center fs-1 fst-italic text-body-secondary ">
                 "Non si può pensare bene, <br> 
                 amare bene, <br>
@@ -143,6 +139,8 @@ export default {
                 se non si ha mangiato bene." <br>
                 (Virginia Woolf)
               </p>
+            </div> <div class="col-12 col-sm-6 col-md-4 justify-content-center">
+              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
             </div>
           </div>
 
