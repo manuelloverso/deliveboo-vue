@@ -90,9 +90,7 @@ export default {
 </template>
 <style scoped>
 .section_footer {
-  background-color: #322a2c;
-
-
+  background-color: var(--bg-footer);
 }
 
 h5,

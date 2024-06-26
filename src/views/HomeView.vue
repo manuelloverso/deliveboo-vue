@@ -91,10 +91,10 @@ export default {
 
     <div class="container">
       <!-- Types Filter -->
-      <h2 class="text-center mt-5">Cosa vuoi mangiare oggi?</h2>
-      <p class="text-center">Scegli una o più tipologie di ristorante</p>
+      <h2 class="text-center mt-5 text-body-secondary">Cosa vuoi mangiare oggi?</h2>
+      <p class="text-center text-body-secondary">Scegli una o più tipologie di ristorante</p>
       <div class="types-container">
-        <div :id="singleType.name" class="badge fs-6 type" v-for="(singleType, index) in store.types"
+        <div :id="singleType.name" class="badge fs-5 type" v-for="(singleType, index) in store.types"
           @click="filterByTypes(index)">
           {{ singleType.name }}
         </div>
@@ -136,7 +136,7 @@ export default {
             </div>
             <div class="col-12 col-sm-6 col-md-8">
               
-              <p class="text-center fs-1 fst-italic ">
+              <p class="text-center fs-1 fst-italic text-body-secondary ">
                 "Non si può pensare bene, <br> 
                 amare bene, <br>
                 dormire bene <br>
