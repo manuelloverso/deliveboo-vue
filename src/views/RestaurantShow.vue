@@ -87,6 +87,7 @@ export default {
                 :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
                 alt=""
               />
+
             </div>
 
             <div class="col-12 col-md-7 col-lg-6 py-4">
