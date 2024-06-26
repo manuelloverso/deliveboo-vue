@@ -76,8 +76,8 @@ export default {
 
         <div class="restaurant-info my-3">
           <!-- Image -->
-          <div class="row" style="width: 100%;">
-            <div class="col-12 col-md-5 col-lg-3">
+          <div class="row " style="width: 100%;">
+            <div class="col-12 col-md-5 col-lg-3 mx-auto">
               <img v-if="restaurant.image.startsWith('http')" class="restaurant-img img-fluid" :src="restaurant.image"
                 alt="" />
               <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"

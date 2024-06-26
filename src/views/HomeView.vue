@@ -76,7 +76,8 @@ export default {
     <!-- Jumbotron -->
     <div class="jumbotron">
       <div class="overlay">
-        <div class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50 text-center">
+        <div
+          class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50 text-center">
           <h1 class="fw-bold ">Benvenuto su Deliverome</h1>
           <br />
           <h2>Il miglior cibo della capitale direttamente a casa tua</h2>
@@ -102,55 +103,56 @@ export default {
       <button v-if="activeTypes.length != 0" @click="resetFilter()" class="reset-btn">
         Azzera filtri
       </button>
+      <!--restaurants-count-->
+      <template v-if="activeTypes.length > 0">
+        <div v-if="filteredRestaurants.length == 1" class="count_restaurant">
+          <p>Ristorante disponibile: {{ filteredRestaurants.length }}</p>
+        </div>
+        <div v-if="filteredRestaurants.length > 1" class="count_restaurant">
+          <p>Ristoranti disponibili: {{ filteredRestaurants.length }}</p>
+        </div>
+      </template>
 
       <!-- Restaurants -->
-      <div v-if="filtered == true" class="restaurants-container">
-        <!--restaurants-count-->
-        <template v-if="activeTypes.length > 0">
-          <div v-if="filteredRestaurants.length == 1" class="count_restaurant">
-            <p>Ristorante disponibile: {{ filteredRestaurants.length }}</p>
+      <div class="restaurants-container">
+        <div v-if="filtered == true" class=" container my-4 ">
+
+          <!--restaurant-cards-->
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 ">
+            <template v-if="activeTypes.length > 0">
+              <div v-for="restaurant in filteredRestaurants" class="col mb-5">
+                <RestaurantCard :restaurant="restaurant" />
+              </div>
+            </template>
           </div>
-          <div v-if="filteredRestaurants.length > 1" class="count_restaurant">
-            <p>Ristoranti disponibili: {{ filteredRestaurants.length }}</p>
+        </div>
+        <!--loading-->
+        <template v-if="loading">
+          <Loading />
+        </template>
+        <!--about-us-->
+        <template v-if="activeTypes.length == 0">
+          <div class="container my-5 about_us py-5">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-8">
+                <p class="text-center fs-2 text-body-secondary mt-4 ">
+                  Da sempre DELIVEROME si impegna per portare a casa tua solo i piatti migliori, dei migliori ristoratori romani
+                </p>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <img class="img-fluid" src="/public/img/cuoco1.png" alt="" />
+              </div>
+            </div>
+
+
           </div>
         </template>
-        <!--restaurant-cards-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 ">
-          <template v-if="activeTypes.length > 0">
-            <div v-for="restaurant in filteredRestaurants" class="col mb-5 mx-auto">
-              <RestaurantCard :restaurant="restaurant" />
-            </div>
-          </template>
-        </div>
+        <!--noresult-->
+        <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+          <NoResult />
+        </template>
       </div>
-      <!--loading-->
-      <template v-if="loading">
-        <Loading />
-      </template>
-      <!--about-us-->
-      <template v-if="activeTypes.length == 0">
-        <div class="container my-5 about_us py-5">
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-8">
-              <p class="text-center fs-1 fst-italic text-body-secondary ">
-                "Non si può pensare bene, <br> 
-                amare bene, <br>
-                dormire bene <br>
-                se non si ha mangiato bene." <br>
-                (Virginia Woolf)
-              </p>
-            </div> <div class="col-12 col-sm-6 col-md-4 justify-content-center">
-              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
-            </div>
-          </div>
 
-
-        </div>
-      </template>
-      <!--noresult-->
-      <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
-        <NoResult />
-      </template>
     </div>
   </main>
 </template>
@@ -171,12 +173,13 @@ export default {
   & h1 {
     font-size: 4.5rem;
     margin: 0;
-     @media (max-width: 576px){
-      font-size: 2.8rem ;
+
+    @media (max-width: 576px) {
+      font-size: 2.8rem;
     }
 
-    & h2{
-      @media (max-width: 576){
+    & h2 {
+      @media (max-width: 576) {
         font-size: 1.5rem;
       }
     }
@@ -247,16 +250,26 @@ export default {
   }
 }
 
-.about_us{
-  & img{
-  min-width: 220px;
+.about_us {
+  & img {
+    min-width: 220px;
   }
 
 }
+
 .restaurants-container {
-  & .count_restaurant {
-    font-size: small;
-    color: rgba(0, 0, 0, 0.519);
-  }
+
+  height: 600px;
+  overflow: auto;
+  overflow-x: hidden;
+  margin-bottom: 40px;
+
+
+
+}
+
+.count_restaurant {
+  font-size: small;
+  color: rgba(0, 0, 0, 0.519);
 }
 </style>
