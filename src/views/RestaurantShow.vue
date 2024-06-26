@@ -71,24 +71,29 @@ export default {
           >
         </div>
 
-
-
-
         <div class="restaurant-info my-3">
           <!-- Image -->
-          <div class="row" style="width: 100%;">
+          <div class="row" style="width: 100%">
             <div class="col-12 col-md-5 col-lg-3">
-              <img v-if="restaurant.image.startsWith('http')" class="restaurant-img img-fluid" :src="restaurant.image"
-                alt="" />
-              <img v-else class="restaurant-img" :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-                alt="" />
-
-
+              <img
+                v-if="restaurant.image.startsWith('http')"
+                class="restaurant-img img-fluid swing-in-top-fwd"
+                :src="restaurant.image"
+                alt=""
+              />
+              <img
+                v-else
+                class="restaurant-img swing-in-top-fwd"
+                :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
+                alt=""
+              />
             </div>
 
             <div class="col-12 col-md-7 col-lg-6 py-4">
               <div class="text-left px-4">
-                <h2 class="fw-bold fs-1">{{ restaurant.restaurant_name }}</h2>
+                <h2 class="fw-bold fs-1 tracking-in-expand-fwd">
+                  {{ restaurant.restaurant_name }}
+                </h2>
                 <div class="d-flex gap-1 felx-wrap">
                   <div
                     v-for="restaurantType in restaurant.types"
@@ -97,33 +102,49 @@ export default {
                     {{ restaurantType.name }}
                   </div>
                 </div>
-                <p class="fs-6 fw-light">
+                <p class="fs-6 fw-light tracking-in-expand-fwd">
                   <strong>Indirizzo: </strong>{{ restaurant.address }}
                 </p>
-                <p v-if="restaurant.phone_number != null" class="fs-6 fw-light">
+                <p
+                  v-if="restaurant.phone_number != null"
+                  class="fs-6 fw-light tracking-in-expand-fwd"
+                >
                   <strong>Numero di telefono: </strong
                   >{{ restaurant.phone_number }}
                 </p>
               </div>
             </div>
 
-            <div class=" col-12 col-sm-12 col-lg-3 mt-5 py-4 px-4">
+            <div class="col-12 col-sm-12 col-lg-3 mt-5 py-4 px-4">
               <!-- Carrello -->
               <div v-if="store.getTotal() > 0" class="cart-button">
-                <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-                  aria-controls="offcanvasScrolling">
+                <button
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasScrolling"
+                  aria-controls="offcanvasScrolling"
+                >
                   Rivedi il tuo ordine
                 </button>
 
-
-                <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-                  id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-
+                <div
+                  class="offcanvas offcanvas-start"
+                  data-bs-scroll="true"
+                  data-bs-backdrop="false"
+                  tabindex="-1"
+                  id="offcanvasScrolling"
+                  aria-labelledby="offcanvasScrollingLabel"
+                >
                   <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                       Controlla il tuo ordine e procedi al checkout
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="offcanvas"
+                      aria-label="Close"
+                    ></button>
                   </div>
                   <div class="offcanvas-body">
                     <table class="table">
@@ -137,20 +158,31 @@ export default {
                       <tbody>
                         <tr v-for="plate in store.cart">
                           <td scope="row" class="d-flex gap-1">
-                            <div class="remBtn btn btn-outline-secondary" @click="store.removePlate(plate.plateObj)">
+                            <div
+                              class="remBtn btn btn-outline-secondary"
+                              @click="store.removePlate(plate.plateObj)"
+                            >
                               -
                             </div>
                             <div class="btn btn-dark">
                               {{ plate.quantity }}
                             </div>
-                            <div class="addBtn btn btn-outline-secondary" @click="store.addPlate(plate.plateObj)">
+                            <div
+                              class="addBtn btn btn-outline-secondary"
+                              @click="store.addPlate(plate.plateObj)"
+                            >
                               +
                             </div>
                           </td>
 
-                          <td>{{ plate.plateObj.name }} </td>
-                          <td>{{ (plate.plateObj.price * plate.quantity).toFixed(2) }}€</td>
-
+                          <td>{{ plate.plateObj.name }}</td>
+                          <td>
+                            {{
+                              (plate.plateObj.price * plate.quantity).toFixed(
+                                2
+                              )
+                            }}€
+                          </td>
                         </tr>
                         <tr>
                           <td colspan="2"><strong>Totale:</strong></td>
@@ -159,9 +191,15 @@ export default {
                       </tbody>
                     </table>
                     <div class="d-flex justify-content-around">
-                      <RouterLink :to="{ name: 'checkout' }" class="btn bg-primary text-white">Procedi al Checkout
+                      <RouterLink
+                        :to="{ name: 'checkout' }"
+                        class="btn bg-primary text-white"
+                        >Procedi al Checkout
                       </RouterLink>
-                      <div @click="store.emptyCart()" class="btn bg-danger text-white">
+                      <div
+                        @click="store.emptyCart()"
+                        class="btn bg-danger text-white"
+                      >
                         <i class="fa-solid fa-trash-can"></i> Svuota Carrello
                       </div>
                     </div>
@@ -169,9 +207,6 @@ export default {
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
 
@@ -266,7 +301,6 @@ export default {
   align-items: flex-end;
   gap: 2rem;
 
-
   .restaurant-img {
     width: 370px;
     height: 230px;
@@ -274,8 +308,6 @@ export default {
     border-radius: 100px;
 
     object-fit: cover;
-
-
   }
 
   .types_restaurant {
@@ -301,8 +333,6 @@ export default {
 }
 
 .cart-button {
-
-
   button {
     background-color: var(--accent);
     border: none;
@@ -311,8 +341,6 @@ export default {
     font-weight: bold;
     color: white;
   }
-
-
 }
 
 .restaurant-plates {
@@ -362,6 +390,5 @@ export default {
       }
     }
   }
-
 }
 </style>

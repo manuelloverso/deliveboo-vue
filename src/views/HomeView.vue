@@ -52,8 +52,7 @@ export default {
             .catch((err) => {
               console.log(err);
               this.loading = false;
-            })
-
+            });
         }
       });
     },
@@ -76,13 +75,21 @@ export default {
     <!-- Jumbotron -->
     <div class="jumbotron">
       <div class="overlay">
-        <div class="jumbo-text container text-white d-flex flex-column align-items-center justify-content-center h-50 text-center">
-          <h1 class="fw-bold ">Benvenuto su Deliverome</h1>
+        <div
+          class="jumbo-text container-fluid text-white d-flex flex-column align-items-center justify-content-center h-50 text-center"
+        >
+          <h1 class="fw-bold tracking-in-contract">Benvenuto su Deliverome</h1>
           <br />
-          <h2>Il miglior cibo della capitale direttamente a casa tua</h2>
+          <h2 class="tracking-in-contract">
+            Il miglior cibo della capitale direttamente a casa tua
+          </h2>
 
-          <h4 class="fw-light mt-5">Sei un ristoratore?</h4>
-          <a class="btn-jum" href="http://127.0.0.1:8000/register">Registrati</a>
+          <h4 class="fw-light mt-5 tracking-in-contract">
+            Sei un ristoratore?
+          </h4>
+          <a class="btn-jum" href="http://127.0.0.1:8000/register"
+            >Registrati</a
+          >
         </div>
       </div>
     </div>
@@ -91,15 +98,27 @@ export default {
 
     <div class="container">
       <!-- Types Filter -->
-      <h2 class="text-center mt-5 text-body-secondary">Cosa vuoi mangiare oggi?</h2>
-      <p class="text-center text-body-secondary">Scegli una o più tipologie di ristorante</p>
+      <h2 class="text-center mt-5 text-body-secondary">
+        Cosa vuoi mangiare oggi?
+      </h2>
+      <p class="text-center text-body-secondary">
+        Scegli una o più tipologie di ristorante
+      </p>
       <div class="types-container">
-        <div :id="singleType.name" class="badge fs-5 type" v-for="(singleType, index) in store.types"
-          @click="filterByTypes(index)">
+        <div
+          :id="singleType.name"
+          class="badge fs-5 type"
+          v-for="(singleType, index) in store.types"
+          @click="filterByTypes(index)"
+        >
           {{ singleType.name }}
         </div>
       </div>
-      <button v-if="activeTypes.length != 0" @click="resetFilter()" class="reset-btn">
+      <button
+        v-if="activeTypes.length != 0"
+        @click="resetFilter()"
+        class="reset-btn"
+      >
         Azzera filtri
       </button>
 
@@ -115,9 +134,12 @@ export default {
           </div>
         </template>
         <!--restaurant-cards-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 ">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
           <template v-if="activeTypes.length > 0">
-            <div v-for="restaurant in filteredRestaurants" class="col mb-5 mx-auto">
+            <div
+              v-for="restaurant in filteredRestaurants"
+              class="col mb-5 mx-auto"
+            >
               <RestaurantCard :restaurant="restaurant" />
             </div>
           </template>
@@ -132,23 +154,28 @@ export default {
         <div class="container my-5 about_us py-5">
           <div class="row">
             <div class="col-12 col-sm-6 col-md-8">
-              <p class="text-center fs-1 fst-italic text-body-secondary ">
-                "Non si può pensare bene, <br> 
-                amare bene, <br>
-                dormire bene <br>
-                se non si ha mangiato bene." <br>
+              <p class="text-center fs-1 fst-italic text-body-secondary">
+                "Non si può pensare bene, <br />
+                amare bene, <br />
+                dormire bene <br />
+                se non si ha mangiato bene." <br />
                 (Virginia Woolf)
               </p>
-            </div> <div class="col-12 col-sm-6 col-md-4 justify-content-center">
-              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 justify-content-center">
+              <img
+                class="img-fluid"
+                src="/public/img/deliverome-circledark-logo.svg"
+                alt=""
+              />
             </div>
           </div>
-
-
         </div>
       </template>
       <!--noresult-->
-      <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+      <template
+        v-if="filteredRestaurants.length == 0 && activeTypes.length != 0"
+      >
         <NoResult />
       </template>
     </div>
@@ -171,16 +198,15 @@ export default {
   & h1 {
     font-size: 4.5rem;
     margin: 0;
-     @media (max-width: 576px){
-      font-size: 2.8rem ;
+    @media (max-width: 576px) {
+      font-size: 2.8rem;
     }
 
-    & h2{
-      @media (max-width: 576){
+    & h2 {
+      @media (max-width: 576) {
         font-size: 1.5rem;
       }
     }
-
   }
 
   .overlay {
@@ -247,11 +273,10 @@ export default {
   }
 }
 
-.about_us{
-  & img{
-  min-width: 220px;
+.about_us {
+  & img {
+    min-width: 220px;
   }
-
 }
 .restaurants-container {
   & .count_restaurant {
