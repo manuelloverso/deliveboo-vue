@@ -134,30 +134,15 @@ export default {
 
       <!-- Restaurants -->
       <div class="restaurants-container">
-        <div v-if="filtered == true" class=" container my-4 ">
-
+        <div v-if="filtered == true" class="container my-4">
           <!--restaurant-cards-->
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 ">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
             <template v-if="activeTypes.length > 0">
               <div v-for="restaurant in filteredRestaurants" class="col mb-5">
                 <RestaurantCard :restaurant="restaurant" />
               </div>
             </template>
           </div>
-        </template>
-        <!--restaurant-cards-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-          <template v-if="activeTypes.length > 0">
-            <div
-              v-for="restaurant in filteredRestaurants"
-              class="col mb-5 mx-auto"
-            >
-              <RestaurantCard :restaurant="restaurant" />
-            </div>
-          </template>
-        </div>
-      </div>
-
         </div>
         <!--loading-->
         <template v-if="loading">
@@ -168,20 +153,21 @@ export default {
           <div class="container my-5 about_us py-5">
             <div class="row">
               <div class="col-12 col-md-6 col-lg-8">
-                <p class="text-center fs-2 text-body-secondary mt-4 ">
-                  Da sempre DELIVEROME si impegna per portare a casa tua solo i piatti migliori, dei migliori ristoratori romani
+                <p class="text-center fs-2 text-body-secondary mt-4">
+                  Da sempre DELIVEROME si impegna per portare a casa tua solo i
+                  piatti migliori, dei migliori ristoratori romani
                 </p>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
                 <img class="img-fluid" src="/public/img/cuoco1.png" alt="" />
               </div>
             </div>
-
-
           </div>
         </template>
         <!--noresult-->
-        <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+        <template
+          v-if="filteredRestaurants.length == 0 && activeTypes.length != 0"
+        >
           <NoResult />
         </template>
       </div>
@@ -287,14 +273,10 @@ export default {
 }
 
 .restaurants-container {
-
   height: 600px;
   overflow: auto;
   overflow-x: hidden;
   margin-bottom: 40px;
-
-
-
 }
 
 .count_restaurant {
