@@ -115,9 +115,9 @@ export default {
           </div>
         </template>
         <!--restaurant-cards-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 ">
           <template v-if="activeTypes.length > 0">
-            <div v-for="restaurant in filteredRestaurants" class="col mb-4">
+            <div v-for="restaurant in filteredRestaurants" class="col mb-5 mx-auto">
               <RestaurantCard :restaurant="restaurant" />
             </div>
           </template>
