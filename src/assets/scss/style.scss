@@ -5,9 +5,22 @@
   --bg-header: #fcc419;
   --accent: #fd7e14;
   --color-logo: #896127;
+  --bg-footer:#322a2c;
 }
 
 body {
   color: var(--text-dark);
   background-color: rgba(195, 195, 195, 0.16);
+
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(255, 255, 255); 
+ 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent); 
+  
 }

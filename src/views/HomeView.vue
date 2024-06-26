@@ -91,10 +91,10 @@ export default {
 
     <div class="container">
       <!-- Types Filter -->
-      <h2 class="text-center mt-5">Cosa vuoi mangiare oggi?</h2>
-      <p class="text-center">Scegli una o più tipologie di ristorante</p>
+      <h2 class="text-center mt-5 text-body-secondary">Cosa vuoi mangiare oggi?</h2>
+      <p class="text-center text-body-secondary">Scegli una o più tipologie di ristorante</p>
       <div class="types-container">
-        <div :id="singleType.name" class="badge fs-6 type" v-for="(singleType, index) in store.types"
+        <div :id="singleType.name" class="badge fs-5 type" v-for="(singleType, index) in store.types"
           @click="filterByTypes(index)">
           {{ singleType.name }}
         </div>
@@ -115,9 +115,9 @@ export default {
           </div>
         </template>
         <!--restaurant-cards-->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 ">
           <template v-if="activeTypes.length > 0">
-            <div v-for="restaurant in filteredRestaurants" class="col mb-4">
+            <div v-for="restaurant in filteredRestaurants" class="col mb-5 mx-auto">
               <RestaurantCard :restaurant="restaurant" />
             </div>
           </template>
@@ -131,18 +131,16 @@ export default {
       <template v-if="activeTypes.length == 0">
         <div class="container my-5 about_us py-5">
           <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 justify-content-center">
-              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
-            </div>
             <div class="col-12 col-sm-6 col-md-8">
-              
-              <p class="text-center fs-1 fst-italic ">
+              <p class="text-center fs-1 fst-italic text-body-secondary ">
                 "Non si può pensare bene, <br> 
                 amare bene, <br>
                 dormire bene <br>
                 se non si ha mangiato bene." <br>
                 (Virginia Woolf)
               </p>
+            </div> <div class="col-12 col-sm-6 col-md-4 justify-content-center">
+              <img  class="img-fluid" src="/public/img/deliverome-circledark-logo.svg" alt="" />
             </div>
           </div>
 
