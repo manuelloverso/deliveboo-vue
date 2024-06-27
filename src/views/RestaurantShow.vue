@@ -63,146 +63,116 @@ export default {
 
 <template>
   <main>
+    <!-- Image -->
+    <template v-if="loading == false" loading="lazy">
+      <div class="image_jumbo">
+        <img v-if="restaurant.image.startsWith('http')" :src="restaurant.image" alt="" />
+        <img v-else :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+      </div>
+    </template>
+
+
     <div class="container py-3">
       <template v-if="loading == false" loading="lazy">
-        <div class="back_link">
-          <a href="http://localhost:5173/"
-            ><i class="fa-solid fa-arrow-left-long"></i> Torna indietro</a
-          >
-        </div>
 
         <div class="restaurant-info my-3">
-          <!-- Image -->
-          <div class="row" style="width: 100%">
-            <div class="col-12 col-md-5 col-lg-3">
-              <img
-                v-if="restaurant.image.startsWith('http')"
-                class="restaurant-img img-fluid swing-in-top-fwd"
-                :src="restaurant.image"
-                alt=""
-              />
-              <img
-                v-else
-                class="restaurant-img swing-in-top-fwd"
-                :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image"
-                alt=""
-              />
+          <div class="row col-10 justyfy-content-center">
 
-            </div>
 
-            <div class="col-12 col-md-7 col-lg-6 py-4">
-              <div class="text-left px-4">
-                <h2 class="fw-bold fs-1 tracking-in-expand-fwd">
-                  {{ restaurant.restaurant_name }}
-                </h2>
-                <div class="d-flex gap-1 felx-wrap">
-                  <div
-                    v-for="restaurantType in restaurant.types"
-                    class="types_restaurant fw-semibold mb-4"
-                  >
-                    {{ restaurantType.name }}
+            <div class="card card_restaurant py-4">
+              <div class="d-flex justify-content-between">
+
+                <div class="text-left px-4">
+                  <h2 class="fw-bold fs-1 tracking-in-expand-fwd">
+                    {{ restaurant.restaurant_name }}
+                  </h2>
+                  <div class="d-flex gap-1 felx-wrap">
+                    <div v-for="restaurantType in restaurant.types" class="types_restaurant fw-semibold mb-4">
+                      {{ restaurantType.name }}
+                    </div>
                   </div>
+                  <p class="fs-6 fw-light tracking-in-expand-fwd">
+                    <strong>Indirizzo: </strong>{{ restaurant.address }}
+                  </p>
+                  <p v-if="restaurant.phone_number != null" class="fs-6 fw-light tracking-in-expand-fwd">
+                    <strong>Numero di telefono: </strong>{{ restaurant.phone_number }}
+                  </p>
+
                 </div>
-                <p class="fs-6 fw-light tracking-in-expand-fwd">
-                  <strong>Indirizzo: </strong>{{ restaurant.address }}
-                </p>
-                <p
-                  v-if="restaurant.phone_number != null"
-                  class="fs-6 fw-light tracking-in-expand-fwd"
-                >
-                  <strong>Numero di telefono: </strong
-                  >{{ restaurant.phone_number }}
-                </p>
+
+                <div class="col-3 col-md-5 col-lg-6 ">
+                  <img v-if="restaurant.image.startsWith('http')" class="restaurant-img img-fluid swing-in-top-fwd"
+                    :src="restaurant.image" alt="" />
+                  <img v-else class="restaurant-img swing-in-top-fwd"
+                    :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
+
+                </div>
+
+              </div>
+            </div>
+            <div class=" d-flex flex-column justify-content-between position_btn_order">
+              <div v-if="store.getTotal() > 0" class="cart-button">
+                <button class="btn_order" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                  aria-controls="offcanvasScrolling">
+                  Rivedi il tuo ordine
+                </button>
               </div>
             </div>
 
-            <div class="col-12 col-sm-12 col-lg-3 mt-5 py-4 px-4">
-              <!-- Carrello -->
-              <div v-if="store.getTotal() > 0" class="cart-button">
-                <button
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasScrolling"
-                  aria-controls="offcanvasScrolling"
-                >
-                  Rivedi il tuo ordine
-                </button>
 
-                <div
-                  class="offcanvas offcanvas-start"
-                  data-bs-scroll="true"
-                  data-bs-backdrop="false"
-                  tabindex="-1"
-                  id="offcanvasScrolling"
-                  aria-labelledby="offcanvasScrollingLabel"
-                >
-                  <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-                      Controlla il tuo ordine e procedi al checkout
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="offcanvas"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="offcanvas-body">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col"></th>
-                          <th scope="col">Piatto</th>
-                          <th scope="col">Prezzo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="plate in store.cart">
-                          <td scope="row" class="d-flex gap-1">
-                            <div
-                              class="remBtn btn btn-outline-secondary"
-                              @click="store.removePlate(plate.plateObj)"
-                            >
-                              -
-                            </div>
-                            <div class="btn btn-dark">
-                              {{ plate.quantity }}
-                            </div>
-                            <div
-                              class="addBtn btn btn-outline-secondary"
-                              @click="store.addPlate(plate.plateObj)"
-                            >
-                              +
-                            </div>
-                          </td>
 
-                          <td>{{ plate.plateObj.name }}</td>
-                          <td>
-                            {{
-                              (plate.plateObj.price * plate.quantity).toFixed(
-                                2
-                              )
-                            }}€
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="2"><strong>Totale:</strong></td>
-                          <td>{{ store.getTotal() }}€</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="d-flex justify-content-around">
-                      <RouterLink
-                        :to="{ name: 'checkout' }"
-                        class="btn bg-primary text-white"
-                        >Procedi al Checkout
-                      </RouterLink>
-                      <div
-                        @click="store.emptyCart()"
-                        class="btn bg-danger text-white"
-                      >
-                        <i class="fa-solid fa-trash-can"></i> Svuota Carrello
-                      </div>
+
+            <!-- Carrello -->
+
+            <div class="col-12 col-sm-12 col-lg-3 px-4">
+
+
+              <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+                id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+                    Controlla il tuo ordine e procedi al checkout
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Piatto</th>
+                        <th scope="col">Prezzo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="plate in store.cart">
+                        <td scope="row" class="d-flex gap-1">
+                          <div class="remBtn btn btn-outline-secondary" @click="store.removePlate(plate.plateObj)">
+                            -
+                          </div>
+                          <div class="btn btn-dark">
+                            {{ plate.quantity }}
+                          </div>
+                          <div class="addBtn btn btn-outline-secondary" @click="store.addPlate(plate.plateObj)">
+                            +
+                          </div>
+                        </td>
+                        <td>{{ plate.plateObj.name }}</td>
+                        <td>
+                          {{ (plate.plateObj.price * plate.quantity).toFixed(2) }}€
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><strong>Totale:</strong></td>
+                        <td>{{ store.getTotal() }}€</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-around">
+                    <RouterLink :to="{ name: 'checkout' }" class="btn bg-primary text-white">Procedi al Checkout
+                    </RouterLink>
+                    <div @click="store.emptyCart()" class="btn bg-danger text-white">
+                      <i class="fa-solid fa-trash-can"></i> Svuota Carrello
                     </div>
                   </div>
                 </div>
@@ -214,16 +184,10 @@ export default {
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 mb-4">
           <template v-if="plates.length > 0">
-            <h2 class="mb-3">Piatti</h2>
-            <div
-              class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
-            >
-              <PlateCard
-                :plate="plate"
-                :restaurant_name="restaurant.restaurant_name"
-                :key="plate.id"
-                v-for="plate in plates"
-              />
+            <!-- <h2 class="mb-3">Piatti</h2> -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+              <PlateCard :plate="plate" :restaurant_name="restaurant.restaurant_name" :key="plate.id"
+                v-for="plate in plates" />
             </div>
           </template>
           <h1 class="my-5" v-else>
@@ -233,41 +197,21 @@ export default {
 
         <!-- modale che appare se si tenta di aggiungere piatti da ristoranti diversi -->
         <!-- Modal Body -->
-        <div
-          class="modal fade"
-          id="modalId"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="modalTitleId"
-          aria-hidden="true"
-        >
-          <div
-            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-            role="document"
-          >
+        <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="modalTitleId">Altro ristorante</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 Puoi ordinare solamente da un ristorante alla volta , desideri
                 svuotare il carrello e ordinare da
-                <strong>{{ restaurant.restaurant_name }}</strong
-                >?
+                <strong>{{ restaurant.restaurant_name }}</strong>?
               </div>
               <div class="modal-footer">
-                <button
-                  @click="store.emptyCart()"
-                  data-bs-dismiss="modal"
-                  type="button"
-                  class="btn btn-danger"
-                >
+                <button @click="store.emptyCart()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
                   Svuota il carrello
                 </button>
               </div>
@@ -297,19 +241,74 @@ export default {
   }
 }
 
-.restaurant-info {
-  display: flex;
-  align-items: flex-end;
-  gap: 2rem;
+.image_jumbo {
+  width: 100%;
+  height: 500px;
 
-  .restaurant-img {
-    width: 370px;
-    height: 230px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 100px;
-
+  img {
+    background-image: ;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
+}
+
+.position_btn_order {
+
+  position: relative;
+
+  .btn_order {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    transition: all 0.2s ease;
+    position: absolute;
+    top: -20px;
+    right: 20%;
+
+    &:hover {
+      background-color: orange;
+      color: white;
+      transform: scale(110%);
+    }
+
+
+
+  }
+
+}
+
+.restaurant-info {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  position: relative;
+  top: -80px;
+
+  .card_restaurant {
+    box-shadow: 0 2px 4px 0 rgba(212, 100, 2, 0.2), 0 3px 10px 0 rgba(241, 146, 22, 0.19);
+    border-radius: 20px;
+
+
+
+    .restaurant-img {
+      width: 370px;
+      height: 230px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 20px;
+      object-fit: cover;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+
+      }
+    }
+
+
+  }
+
 
   .types_restaurant {
     color: white;
@@ -354,6 +353,8 @@ export default {
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+
+
 
     .plate-img {
       width: 100%;
