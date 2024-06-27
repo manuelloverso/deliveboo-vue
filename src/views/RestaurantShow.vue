@@ -64,13 +64,13 @@ export default {
 <template>
   <main>
     <!-- Image -->
+
     <template v-if="loading == false" loading="lazy">
       <div class="image_jumbo">
         <img v-if="restaurant.image.startsWith('http')" :src="restaurant.image" alt="" />
         <img v-else :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
       </div>
     </template>
-
 
     <div class="container py-3">
       <template v-if="loading == false" loading="lazy">
@@ -105,7 +105,6 @@ export default {
                     :src="restaurant.image" alt="" />
                   <img v-else class="restaurant-img swing-in-top-fwd"
                     :src="'http://127.0.0.1:8000' + '/storage/' + restaurant.image" alt="" />
-
                 </div>
 
               </div>
@@ -127,8 +126,8 @@ export default {
             <div class="col-12 col-sm-12 col-lg-3 px-4">
 
 
-              <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-                id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+              <div class="off_canvas offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false"
+                tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                     Controlla il tuo ordine e procedi al checkout
@@ -136,8 +135,8 @@ export default {
                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                  <table class="table">
-                    <thead>
+                  <table class="bg_table w-100">
+                    <thead class="">
                       <tr>
                         <th scope="col"></th>
                         <th scope="col">Piatto</th>
@@ -146,7 +145,7 @@ export default {
                     </thead>
                     <tbody>
                       <tr v-for="plate in store.cart">
-                        <td scope="row" class="d-flex gap-1">
+                        <td scope="row" class="d-flex gap-1 py-2">
                           <div class="remBtn btn btn-outline-secondary" @click="store.removePlate(plate.plateObj)">
                             -
                           </div>
@@ -157,19 +156,19 @@ export default {
                             +
                           </div>
                         </td>
-                        <td>{{ plate.plateObj.name }}</td>
-                        <td>
+                        <td class=" ">{{ plate.plateObj.name }}</td>
+                        <td class=" ">
                           {{ (plate.plateObj.price * plate.quantity).toFixed(2) }}€
                         </td>
                       </tr>
-                      <tr>
-                        <td colspan="2"><strong>Totale:</strong></td>
+                      <tr class="">
+                        <td class="py-4" colspan="2"><strong>Totale:</strong></td>
                         <td>{{ store.getTotal() }}€</td>
                       </tr>
                     </tbody>
                   </table>
                   <div class="d-flex justify-content-around">
-                    <RouterLink :to="{ name: 'checkout' }" class="btn bg-primary text-white">Procedi al Checkout
+                    <RouterLink :to="{ name: 'checkout' }" class="btn btn-dark btn_checkout">Procedi al Checkout
                     </RouterLink>
                     <div @click="store.emptyCart()" class="btn bg-danger text-white">
                       <i class="fa-solid fa-trash-can"></i> Svuota Carrello
@@ -246,7 +245,6 @@ export default {
   height: 500px;
 
   img {
-    background-image: ;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -266,18 +264,15 @@ export default {
     transition: all 0.2s ease;
     position: absolute;
     top: -20px;
-    right: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
 
     &:hover {
       background-color: orange;
       color: white;
-      transform: scale(110%);
+      transform: translate(-50%, 0);
     }
-
-
-
   }
-
 }
 
 .restaurant-info {
@@ -291,8 +286,6 @@ export default {
     box-shadow: 0 2px 4px 0 rgba(212, 100, 2, 0.2), 0 3px 10px 0 rgba(241, 146, 22, 0.19);
     border-radius: 20px;
 
-
-
     .restaurant-img {
       width: 370px;
       height: 230px;
@@ -302,11 +295,8 @@ export default {
 
       @media screen and (max-width: 600px) {
         display: none;
-
       }
     }
-
-
   }
 
 
@@ -334,7 +324,7 @@ export default {
 
 .cart-button {
   button {
-    background-color: var(--accent);
+    background-color: vcar(--accent);
     border: none;
     padding: 1rem 1rem;
     border-radius: 10px;
@@ -342,6 +332,12 @@ export default {
     color: white;
   }
 }
+
+.off_canvas {
+  background-color: var(--bg-header);
+
+}
+
 
 .restaurant-plates {
   .plate-card {
