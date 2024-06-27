@@ -236,8 +236,8 @@ export default {
   .type {
     position: relative;
     cursor: pointer;
-    width: 150px;
-    transition: 0.5s;
+    width: 160px;
+    transition: transform 0.3s ease;
 
     &:hover img {
       filter: grayscale(0);
@@ -247,7 +247,7 @@ export default {
       aspect-ratio: 16/10;
       border-radius: 30px;
       filter: grayscale(1);
-      transition: 0.5s;
+      transition: filter 0.3s ease;
     }
 
     & span {
@@ -255,10 +255,10 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: red;
+      color: white;
       font-weight: 800;
-      text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
-        1px 1px 0 white;
+      text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+        1px 1px 0 black;
     }
 
     &:hover {
