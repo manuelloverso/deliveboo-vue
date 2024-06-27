@@ -31,28 +31,11 @@ export default {
     <div class="plate-card">
       <!-- Image -->
       <template v-if="plate.image != null">
-        <img
-          loading="lazy"
-          v-if="plate.image.startsWith('http')"
-          class="plate-img"
-          :src="plate.image"
-          alt=""
-        />
-        <img
-          loading="lazy"
-          v-else
-          class="plate-img"
-          :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
-          alt=""
-        />
+        <img loading="lazy" v-if="plate.image.startsWith('http')" class="plate-img" :src="plate.image" alt="" />
+        <img loading="lazy" v-else class="plate-img" :src="'http://127.0.0.1:8000' + '/storage/' + plate.image"
+          alt="" />
       </template>
-      <img
-        loading="lazy"
-        v-else
-        class="plate-img"
-        src="/public/img/plate-default.jpg"
-        alt=""
-      />
+      <img loading="lazy" v-else class="plate-img" src="/public/img/plate-default.jpg" alt="" />
 
       <div class="plate-info">
         <div>
@@ -60,23 +43,17 @@ export default {
           <p>{{ plate.description }}</p>
           <p><strong>Prezzo: </strong>{{ plate.price }}€</p>
         </div>
-
+      </div>
+      <div class="d-flex justify-content-end">
         <div class="buttons d-flex gap-3">
-          <button
-            @click="store.addPlate(plate, restaurant_name)"
-            class="add-plate"
-          >
-            <i class="fa-solid fa-plus"></i>
+          <button v-if="isInCart(plate.name)" @click="store.removePlate(plate)" class="add-plate">
+            <i class="fa-solid fa-minus"></i>
           </button>
           <button v-if="isInCart(plate.name)" class="btn btn-dark">
             {{ store.getQuantity(plate.name) }}
           </button>
-          <button
-            v-if="isInCart(plate.name)"
-            @click="store.removePlate(plate)"
-            class="add-plate"
-          >
-            <i class="fa-solid fa-minus"></i>
+          <button @click="store.addPlate(plate, restaurant_name)" class="add-plate">
+            <i class="fa-solid fa-plus"></i>
           </button>
         </div>
       </div>
