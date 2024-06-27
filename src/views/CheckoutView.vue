@@ -1,12 +1,17 @@
 <script>
 import { store } from "../store.js";
 import axios from "axios";
+import Loading from "../components/Loading.vue";
 
 export default {
   name: "CheckoutView",
+  components: {
+    Loading,
+  },
   data() {
     return {
       store,
+      loading: false,
       plates: [],
       restaurant_name: null,
       btClientToken: null,
@@ -64,12 +69,14 @@ export default {
         }
         document.getElementById("nonce").value = payload.nonce;
         data.reqPayload = payload;
+        this.loading = true;
 
         axios
           .post("http://127.0.0.1:8000/api/orders/process", data)
           .then((response) => {
             console.log(response);
             if (!response.data.success) {
+              this.loading = false;
               if ("errors" in response.data) {
                 this.errors = response.data.errors;
                 console.log(this.errors);
@@ -78,6 +85,7 @@ export default {
                 this.errors = { payment_failed: "Transazione fallita" };
               }
             } else {
+              this.loading = false;
               store.emptyCart();
               this.total = null;
               this.customer_name = null;
@@ -216,12 +224,14 @@ export default {
               <div class="mb-3">
                 <label for="customer_name" class="form-label">Nome</label>
                 <input
+                  min="2"
                   max="50"
                   class="form-control"
                   v-model="customer_name"
                   type="text"
                   name="customer_name"
                   id="customer_name"
+                  autocomplete="given-name"
                 />
 
                 <div class="text-danger" v-if="errors.customer_name">
@@ -242,6 +252,7 @@ export default {
                   type="text"
                   name="customer_lastname"
                   id="customer_lastname"
+                  autocomplete="family-name"
                 />
                 <div class="text-danger" v-if="errors.customer_lastname">
                   {{ errors.customer_lastname }}
@@ -253,6 +264,7 @@ export default {
                   >Indirizzo</label
                 >
                 <input
+                  required
                   class="form-control"
                   v-model="customer_address"
                   type="text"
@@ -294,19 +306,26 @@ export default {
                   {{ errors.customer_email }}
                 </div>
               </div>
-              <div id="dropin-container"></div>
-              <div class="text-danger fs-5 my-3" v-if="errors.payment_failed">
-                {{ errors.payment_failed }}
+
+              <div class="payment">
+                <div id="dropin-container"></div>
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <div class="text-danger fs-5 my-3" v-if="errors.payment_failed">
+                  {{ errors.payment_failed }}
+                </div>
               </div>
+
               <p>
                 <strong>Totale: {{ store.getTotal() }}€</strong>
               </p>
               <button class="payment-btn" type="submit">Paga</button>
-              <input type="hidden" id="nonce" name="payment_method_nonce" />
             </form>
           </div>
         </div>
       </div>
+      <!-- <template v-else>
+        <Loading />
+      </template> -->
     </div>
   </main>
 </template>
