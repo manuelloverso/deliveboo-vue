@@ -118,7 +118,7 @@ export default {
 <template>
   <main class="checkout-main">
     <div class="container py-4 d-flex justify-content-center text-white">
-      <div class="row justify-content-center w-100">
+      <div v-if="loading == false" class="row justify-content-center w-100">
         <div class="col-12 col-lg-6 mb-4 mb-lg-0 p-lg-5">
           <template v-if="store.cart.length > 0">
             <div class="cart">
@@ -247,9 +247,9 @@ export default {
           </div>
         </div>
       </div>
-      <!-- <template v-else>
+      <template v-else>
         <Loading />
-      </template> -->
+      </template>
     </div>
   </main>
 </template>
