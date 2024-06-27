@@ -108,11 +108,12 @@ export default {
       <div class="types-container">
         <div
           :id="singleType.name"
-          class="badge fs-5 type"
+          class="fs-5 type"
           v-for="(singleType, index) in store.types"
           @click="filterByTypes(index)"
         >
-          {{ singleType.name }}
+          <img class="type-img" :src="singleType.image" alt="" />
+          <span>{{ singleType.name }}</span>
         </div>
       </div>
       <button
@@ -233,19 +234,40 @@ export default {
   margin: 3rem 0 2rem 0;
 
   .type {
+    position: relative;
     cursor: pointer;
-    background-color: var(--accent);
-    transition: 0.5s;
+    width: 160px;
+    transition: transform 0.3s ease;
+
+    &:hover img {
+      filter: grayscale(0);
+    }
+    .type-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: 30px;
+      filter: grayscale(1);
+      transition: filter 0.3s ease;
+    }
+
+    & span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: 800;
+      text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+        1px 1px 0 black;
+    }
 
     &:hover {
       transform: scale(1.07);
-      background-color: red;
     }
   }
 
-  .active-type {
-    background-color: red;
-    transform: scale(1.07);
+  .active-type .type-img {
+    filter: grayscale(0) !important;
   }
 }
 
