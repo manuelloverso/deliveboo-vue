@@ -130,7 +130,7 @@ export default {
                 tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-                    Controlla il tuo ordine e procedi al checkout
+                    Controlla il tuo ordine e procedi al checkout del ristorante: {{ store.cart[0].restaurant }}
                   </h5>
                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
