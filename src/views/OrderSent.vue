@@ -6,7 +6,7 @@ export default {
   },
 
   methods: {
-    redirect() {
+    /*   redirect() {
       let counter = document.getElementById("counter");
       let number = Number(counter.innerText);
       setInterval(() => {
@@ -16,7 +16,7 @@ export default {
           this.$router.push({ name: "home" });
         }
       }, 1000);
-    },
+    }, */
   },
 
   mounted() {
@@ -29,8 +29,6 @@ export default {
     <div class="d-flex flex-column text-center text-white">
       <h1 class="fw-bold mb-4">Ordine effettuato con successo!</h1>
       <h2>Sarà a casa tua in pochi minuti</h2>
-
-      <h4>Sarai reindirizzato in <strong id="counter">5</strong></h4>
     </div>
   </main>
 </template>

@@ -129,7 +129,9 @@ export default {
           <p>Ristorante disponibile: {{ filteredRestaurants.length }}</p>
         </div>
         <div v-if="filteredRestaurants.length > 1" class="count_restaurant">
-          <p>Ristoranti disponibili: {{ filteredRestaurants.length }}</p>
+          <p class="ps-3 fs-5">
+            Ristoranti disponibili: {{ filteredRestaurants.length }}
+          </p>
         </div>
       </template>
 
@@ -295,9 +297,8 @@ export default {
 }
 
 .restaurants-container {
-  height: 600px;
   overflow: auto;
-  overflow-x: hidden;
+
   margin-bottom: 40px;
 }
 
