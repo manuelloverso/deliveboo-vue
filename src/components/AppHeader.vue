@@ -48,14 +48,14 @@ export default {
               </ul>
             </div>
           </div>
-          <div class="cart-link mx-4 align-items-center">
-            <div v-if="store.cart.length > 0" class="items-number">
-              {{ store.cart.length }}
+          <RouterLink :to="{ name: 'checkout' }">
+            <div class="cart-link mx-4 align-items-center">
+              <div v-if="store.cart.length > 0" class="items-number">
+                {{ store.cart.length }}
+              </div>
+              <i class="text-white fa-solid fa-cart-shopping fa-lg"></i>
             </div>
-            <RouterLink :to="{ name: 'checkout' }"
-              ><i class="fa-solid fa-cart-shopping fa-lg"></i
-            ></RouterLink>
-          </div>
+          </RouterLink>
         </div>
       </div>
     </nav>

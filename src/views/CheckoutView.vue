@@ -87,7 +87,6 @@ export default {
               }
             } else {
               this.loading = false;
-              store.emptyCart();
               this.total = null;
               this.customer_name = null;
               this.customer_lastname = null;
@@ -95,6 +94,10 @@ export default {
               this.customer_phone = null;
               this.customer_email = null;
               this.$router.push({ name: "accepted" });
+              store.lastOrder = store.cart;
+              setTimeout(() => {
+                store.emptyCart();
+              }, 2000);
             }
           })
           .catch((err) => {
@@ -107,7 +110,7 @@ export default {
   mounted() {
     store.temporaryPlate = null;
     this.getClientToken();
-    this.restaurant_name = store.cart[0].restaurant;
+    this.restaurant_name = store.cart[0]?.restaurant;
   },
 };
 </script>
