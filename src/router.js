@@ -11,7 +11,12 @@ const router = createRouter({
   routes: [
     { path: "/", name: "home", component: HomeView },
     { path: "/checkout", name: "checkout", component: CheckoutView },
-    { path: "/checkout/accepted", name: "accepted", component: OrderSent },
+    {
+      path: "/checkout/accepted",
+      name: "accepted",
+      component: OrderSent,
+      meta: { noTransition: true },
+    },
 
     { path: "/restaurants/:slug-:id", component: RestaurantShow },
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
