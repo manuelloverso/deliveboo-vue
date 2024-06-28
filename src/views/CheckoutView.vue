@@ -39,6 +39,7 @@ export default {
           authorization: this.btClientToken,
           container: "#dropin-container",
           dataCollector: true,
+          locale: "it_IT",
         },
         (error, dropinInstance) => {
           if (error) console.error(error);
