@@ -56,7 +56,6 @@ export default {
       axios
         .get(store.baseApiUrl + `types/${this.restTypes}`)
         .then((resp) => {
-          console.log(resp);
           this.related = resp.data.results.filter(
             (el) => el.id != this.restaurant.id
           );
@@ -76,6 +75,11 @@ export default {
       });
       return found;
     },
+
+    toggleAlert() {
+      const el = this.$refs.alert;
+      el.style.display = "none";
+    },
   },
 
   mounted() {
@@ -90,9 +94,25 @@ export default {
 
 <template>
   <main>
+    <!-- alert -->
+
     <!-- Image -->
 
     <template v-if="loading == false" loading="lazy">
+      <div
+        v-if="
+          restaurant.id != store.cart[0]?.plateObj.restaurant_id &&
+          store.cart.length > 0
+        "
+        class="restaurant-alert bg-danger text-white"
+        ref="alert"
+      >
+        <i class="fa-solid fa-exclamation fa-shake"></i>
+        Puoi ordinare solamente da un ristorante alla volta!
+        <span class="toggle-alert" @click="toggleAlert()"
+          ><i class="fa-solid fa-circle-xmark"></i
+        ></span>
+      </div>
       <div class="image_jumbo">
         <img
           v-if="restaurant.image.startsWith('http')"
@@ -347,6 +367,24 @@ export default {
   </main>
 </template>
 <style scoped>
+.toggle-alert {
+  cursor: pointer;
+}
+.restaurant-alert {
+  display: inline-block;
+  font-size: 1.2rem;
+  padding: 15px;
+  border-radius: 15px;
+  position: fixed;
+  top: 150px;
+  right: 50px;
+  z-index: 5;
+
+  @media screen and (max-width: 670px) {
+    right: 10px;
+    font-size: 0.9rem;
+  }
+}
 .back_link {
   margin-bottom: 20px;
 
