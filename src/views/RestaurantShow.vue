@@ -3,6 +3,8 @@ import { store } from "../store.js";
 import AppHeader from "../components/AppHeader.vue";
 import PlateCard from "../components/PlateCard.vue";
 import Loading from "../components/Loading.vue";
+import RestaurantCard from "../components/RestaurantCard.vue";
+
 import axios from "axios";
 
 export default {
@@ -11,6 +13,7 @@ export default {
     AppHeader,
     Loading,
     PlateCard,
+    RestaurantCard,
   },
   data() {
     return {
@@ -20,6 +23,9 @@ export default {
       restaurant: null,
       plates: [],
       loading: true,
+      relatedLoading: true,
+      related: [],
+      restTypes: [],
     };
   },
 
@@ -32,12 +38,34 @@ export default {
             this.restaurant = resp.data.response;
             this.plates = resp.data.response.plates;
             this.loading = false;
+            this.relatedRestaurants();
           } else {
             this.$router.push({ name: "NotFound" });
           }
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+
+    relatedRestaurants() {
+      this.restaurant.types.forEach((type) => {
+        this.restTypes.push(type.id);
+      });
+
+      axios
+        .get(store.baseApiUrl + `types/${this.restTypes}`)
+        .then((resp) => {
+          console.log(resp);
+          this.related = resp.data.results.filter(
+            (el) => el.id != this.restaurant.id
+          );
+          console.log(this.related);
+          this.relatedLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.relatedLoading = false;
         });
     },
 
@@ -158,7 +186,9 @@ export default {
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                     Controlla il tuo ordine e procedi al checkout del
+
                     ristorante: {{ store.cart[0]?.restaurant }}
+
                   </h5>
                   <button
                     type="button"
@@ -197,6 +227,14 @@ export default {
                             +
                           </div>
                         </td>
+
+                        <td class=" ">{{ plate.plateObj.name }}</td>
+                        <td class=" ">
+                          {{
+                            (plate.plateObj.price * plate.quantity).toFixed(2)
+                          }}€
+                        </td>
+
                       </tr>
 
                       <tr class="">
@@ -228,6 +266,7 @@ export default {
 
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 mb-4">
+          <h2 class="text-center fs-1 mb-5">Menu</h2>
           <template v-if="plates.length > 0">
             <!-- <h2 class="mb-3">Piatti</h2> -->
             <div
@@ -246,6 +285,18 @@ export default {
           </h1>
         </div>
 
+        <!-- Ristoranti correlati -->
+        <h2 class="mb-4 mt-2">Ristoranti simili</h2>
+        <div
+          v-if="relatedLoading == false"
+          class="related-restaurants mb-3 row row-cols-1 row-cols-md-2 row-cols-lg-3"
+        >
+          <div v-for="relRestaurant in related">
+            <div class="col mb-5">
+              <RestaurantCard :restaurant="relRestaurant" />
+            </div>
+          </div>
+        </div>
         <!-- modale che appare se si tenta di aggiungere piatti da ristoranti diversi -->
         <!-- Modal Body -->
         <div
