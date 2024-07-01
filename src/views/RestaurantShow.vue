@@ -146,7 +146,7 @@ export default {
                   />
                   <img
                     v-else
-                    class="restaurant-img swing-in-top-fwd"
+                    class="restaurant-img img-fluid swing-in-top-fwd"
                     :src="
                       'http://127.0.0.1:8000' + '/storage/' + restaurant.image
                     "
