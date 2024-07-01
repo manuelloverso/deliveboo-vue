@@ -60,7 +60,6 @@ export default {
           this.related = resp.data.results.filter(
             (el) => el.id != this.restaurant.id
           );
-          console.log(this.related);
           this.relatedLoading = false;
         })
         .catch((err) => {
@@ -256,7 +255,7 @@ export default {
 
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 mb-4">
-          <h2 class="text-center fs-1 mb-5">Menu</h2>
+          <h2 class="text-center fs-1 mb-5">Menù</h2>
           <template v-if="plates.length > 0">
             <!-- <h2 class="mb-3">Piatti</h2> -->
             <div
@@ -276,17 +275,19 @@ export default {
         </div>
 
         <!-- Ristoranti correlati -->
-        <h2 class="mb-4 mt-2">Ristoranti simili</h2>
-        <div
-          v-if="relatedLoading == false"
-          class="related-restaurants mb-3 row row-cols-1 row-cols-md-2 row-cols-lg-3"
-        >
-          <div v-for="relRestaurant in related">
-            <div class="col mb-5">
-              <RestaurantCard :restaurant="relRestaurant" />
+        <template v-if="relatedLoading == false && related.length > 0">
+          <h2 class="mb-4 mt-2">Ristoranti simili</h2>
+          <div
+            class="related-restaurants mb-3 row row-cols-1 row-cols-md-2 row-cols-lg-3"
+          >
+            <div v-for="relRestaurant in related">
+              <div class="col mb-5">
+                <RestaurantCard :restaurant="relRestaurant" />
+              </div>
             </div>
           </div>
-        </div>
+        </template>
+
         <!-- modale che appare se si tenta di aggiungere piatti da ristoranti diversi -->
         <!-- Modal Body -->
         <div
