@@ -17,7 +17,7 @@ export default {
 </script>
 <template>
   <main class="ordersent-main">
-    <div class="d-flex flex-column align-items-center text-white">
+    <div class="container d-flex flex-column align-items-center text-white">
       <h1 class="fw-bold mb-4">Ordine effettuato con successo!</h1>
       <h2 class="mb-4">Sarà a casa tua in pochi minuti</h2>
       <div v-if="store.lastOrder.length > 0" class="col-12 col-md-8">
