@@ -186,9 +186,7 @@ export default {
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                     Controlla il tuo ordine e procedi al checkout del
-
                     ristorante: {{ store.cart[0]?.restaurant }}
-
                   </h5>
                   <button
                     type="button"
@@ -227,14 +225,6 @@ export default {
                             +
                           </div>
                         </td>
-
-                        <td class=" ">{{ plate.plateObj.name }}</td>
-                        <td class=" ">
-                          {{
-                            (plate.plateObj.price * plate.quantity).toFixed(2)
-                          }}€
-                        </td>
-
                       </tr>
 
                       <tr class="">
