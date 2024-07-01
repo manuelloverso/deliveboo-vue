@@ -51,24 +51,22 @@ export default {
     relatedRestaurants() {
       this.restaurant.types.forEach((type) => {
         this.restTypes.push(type.id);
-        console.log(this.restTypes);
-
-        axios
-          .get(store.baseApiUrl + `types/${this.restTypes}`)
-          .then((resp) => {
-            resp.data.results.forEach((rest) => {
-              if (rest.id != this.restaurant.id) {
-                this.related.push(rest);
-              }
-            });
-            console.log(this.related);
-            this.relatedLoading = false;
-          })
-          .catch((err) => {
-            console.log(err);
-            this.relatedLoading = false;
-          });
       });
+
+      axios
+        .get(store.baseApiUrl + `types/${this.restTypes}`)
+        .then((resp) => {
+          console.log(resp);
+          this.related = resp.data.results.filter(
+            (el) => el.id != this.restaurant.id
+          );
+          console.log(this.related);
+          this.relatedLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.relatedLoading = false;
+        });
     },
 
     isInCart(name) {
@@ -261,6 +259,7 @@ export default {
 
         <!-- Piatti -->
         <div class="restaurant-plates px-4 py-1 mb-4">
+          <h2 class="text-center fs-1 mb-5">Menu</h2>
           <template v-if="plates.length > 0">
             <!-- <h2 class="mb-3">Piatti</h2> -->
             <div
