@@ -76,7 +76,8 @@ export default {
     <div class="jumbotron">
       <div class="overlay">
         <div
-          class="jumbo-text container-fluid text-white d-flex flex-column align-items-center justify-content-center h-50 text-center">
+          class="jumbo-text container-fluid text-white d-flex flex-column align-items-center justify-content-center h-50 text-center"
+        >
           <h1 class="fw-bold tracking-in-contract">Benvenuto su Deliverome</h1>
 
           <br />
@@ -87,7 +88,9 @@ export default {
           <h4 class="fw-light mt-5 tracking-in-contract">
             Sei un ristoratore?
           </h4>
-          <a class="btn-jum" href="http://127.0.0.1:8000/register">Registrati</a>
+          <a class="btn-jum" href="http://127.0.0.1:8000/register"
+            >Registrati</a
+          >
         </div>
       </div>
     </div>
@@ -103,19 +106,29 @@ export default {
         Scegli una o più tipologie di ristorante
       </p>
       <div class="types-container">
-        <div :id="singleType.name" class="fs-5 type" v-for="(singleType, index) in store.types"
-          @click="filterByTypes(index)">
+        <div
+          :id="singleType.name"
+          class="fs-5 type"
+          v-for="(singleType, index) in store.types"
+          @click="filterByTypes(index)"
+        >
           <img class="type-img" :src="singleType.image" alt="" />
           <span>{{ singleType.name }}</span>
         </div>
       </div>
-      <button v-if="activeTypes.length != 0" @click="resetFilter()" class="reset-btn">
+      <button
+        v-if="activeTypes.length != 0"
+        @click="resetFilter()"
+        class="reset-btn"
+      >
         Azzera filtri
       </button>
       <!--restaurants-count-->
       <template v-if="activeTypes.length > 0">
         <div v-if="filteredRestaurants.length == 1" class="count_restaurant">
-          <p>Ristorante disponibile: {{ filteredRestaurants.length }}</p>
+          <p class="ps-3 fs-5">
+            Ristorante disponibile: {{ filteredRestaurants.length }}
+          </p>
         </div>
         <div v-if="filteredRestaurants.length > 1" class="count_restaurant">
           <p class="ps-3 fs-5">
@@ -144,35 +157,64 @@ export default {
         <template v-if="activeTypes.length == 0">
           <div class="container my-5 about_us py-5 gap-4">
             <div class="row g-1">
-              <div class=" col-12 col-md-12 col-lg-4 p-2">
+              <div class="col-12 col-md-12 col-lg-4 p-2">
                 <div class="card h-100">
-                  <img src="/public/img/icon-plates.png"  class="img-fluid" alt="" />
+                  <img
+                    src="/public/img/icon-plates.png"
+                    class="img-fluid"
+                    alt=""
+                  />
                   <div class="card-body">
-                    <div class="cardi-title text-white text-center text-uppercase">
-                      <h3>solo i migliori piatti di roma</h3></div>
-                    <p class="card-text text-center text-white p-3">Abbiamo cercato per voi i ristoranti piú buoni della capitale per portavi a casa solo i piatti migliori </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class=" col col-md-6 col-lg-4 p-2">
-                <div class="card h-100">
-                  <img src="/public/img/icon-rider.png"  class="img-fluid" alt="" />
-                  <div class="card-body">
-                    <div class="cardi-title text-white text-center text-uppercase">
-                      <h3>consegne veloci</h3></div>
-                    <p class="card-text text-center text-white p-3">I nostri rider si impegnano ogni giorno per consegnare i vostri ordini nel minore tempo possibile</p>
+                    <div
+                      class="cardi-title text-white text-center text-uppercase"
+                    >
+                      <h3>solo i migliori piatti di roma</h3>
+                    </div>
+                    <p class="card-text text-center text-white p-3">
+                      Abbiamo cercato per voi i ristoranti piú buoni della
+                      capitale per portavi a casa solo i piatti migliori
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div class="col col-md-6 col-lg-4 p-2">
-                <div class="card  h-100">
-                  <img src="/public/img/icon-securitypay.png"  class="img-fluid" alt="" />
+                <div class="card h-100">
+                  <img
+                    src="/public/img/icon-rider.png"
+                    class="img-fluid"
+                    alt=""
+                  />
                   <div class="card-body">
-                    <div class="cardi-title text-white text-center text-uppercase">
-                      <h3>pagamento online sicuro</h3></div>
-                    <p class="card-text text-center text-white p-3">Paga comodamente dal tuo divano, al resto ci pensiamo noi</p>
+                    <div
+                      class="cardi-title text-white text-center text-uppercase"
+                    >
+                      <h3>consegne veloci</h3>
+                    </div>
+                    <p class="card-text text-center text-white p-3">
+                      I nostri rider si impegnano ogni giorno per consegnare i
+                      vostri ordini nel minore tempo possibile
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col col-md-6 col-lg-4 p-2">
+                <div class="card h-100">
+                  <img
+                    src="/public/img/icon-securitypay.png"
+                    class="img-fluid"
+                    alt=""
+                  />
+                  <div class="card-body">
+                    <div
+                      class="cardi-title text-white text-center text-uppercase"
+                    >
+                      <h3>pagamento online sicuro</h3>
+                    </div>
+                    <p class="card-text text-center text-white p-3">
+                      Paga comodamente dal tuo divano, al resto ci pensiamo noi
+                    </p>
                   </div>
                 </div>
               </div>
@@ -180,7 +222,9 @@ export default {
           </div>
         </template>
         <!--noresult-->
-        <template v-if="filteredRestaurants.length == 0 && activeTypes.length != 0">
+        <template
+          v-if="filteredRestaurants.length == 0 && activeTypes.length != 0"
+        >
           <NoResult />
         </template>
       </div>
@@ -303,25 +347,22 @@ export default {
 }
 
 .about_us {
-  & .card{
+  & .card {
     background-color: var(--accent);
-
   }
   & img {
-   max-width: 200px;
+    max-width: 200px;
     margin: auto;
     margin-top: 30px;
 
-    @media (max-width: 768px){
-      width:100px ;
+    @media (max-width: 768px) {
+      width: 100px;
     }
-      
   }
 
-  & h3{
+  & h3 {
     @media (max-width: 768px) {
       font-size: 25px;
-      
     }
   }
 }
