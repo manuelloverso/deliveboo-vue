@@ -27,10 +27,15 @@ export default {
   <AppHeader />
   <!-- Site Main -->
 
-  <RouterView v-slot="{ Component }">
-    <transition name="slide" mode="out-in">
-      <component :is="Component" :key="$route.path"></component>
-    </transition>
+  <RouterView v-slot="{ Component, route }">
+    <template v-if="!route.meta.noTransition">
+      <transition name="slide" mode="out-in">
+        <component :is="Component" :key="route.fullPath"></component>
+      </transition>
+    </template>
+    <template v-else>
+      <component :is="Component" :key="route.fullPath"></component>
+    </template>
   </RouterView>
 
   <!-- Site Footer -->

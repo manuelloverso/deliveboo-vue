@@ -9,6 +9,7 @@ export const store = reactive({
   cart: [],
   temporaryPlate: null,
   isTemporaryAdded: false,
+  lastOrder: [],
 
   getTypes() {
     axios
@@ -41,12 +42,18 @@ export const store = reactive({
       return 0;
     }
   },
-  getTotal() {
+  getTotal(order) {
     let total = 0;
-    this.cart.forEach((el) => {
-      total += el.plateObj.price * el.quantity;
-    });
 
+    if (order) {
+      order.forEach((el) => {
+        total += el.plateObj.price * el.quantity;
+      });
+    } else {
+      this.cart.forEach((el) => {
+        total += el.plateObj.price * el.quantity;
+      });
+    }
     return total.toFixed(2);
   },
 

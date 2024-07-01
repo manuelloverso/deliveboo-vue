@@ -186,7 +186,9 @@ export default {
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
                     Controlla il tuo ordine e procedi al checkout del
-                    ristorante: {{ store.cart[0].restaurant }}
+
+                    ristorante: {{ store.cart[0]?.restaurant }}
+
                   </h5>
                   <button
                     type="button"
@@ -199,13 +201,15 @@ export default {
                   <table class="bg_table w-100">
                     <thead class="">
                       <tr>
-                        <th scope="col"></th>
                         <th scope="col">Piatto</th>
                         <th scope="col">Prezzo</th>
+                        <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="plate in store.cart">
+                        <td class=" ">{{ plate.plateObj.name }}</td>
+                        <td class=" ">{{ plate.plateObj.price }}€</td>
                         <td scope="row" class="d-flex gap-1 py-2">
                           <div
                             class="remBtn btn btn-outline-secondary"
@@ -223,13 +227,16 @@ export default {
                             +
                           </div>
                         </td>
+
                         <td class=" ">{{ plate.plateObj.name }}</td>
                         <td class=" ">
                           {{
                             (plate.plateObj.price * plate.quantity).toFixed(2)
                           }}€
                         </td>
+
                       </tr>
+
                       <tr class="">
                         <td class="py-4" colspan="2">
                           <strong>Totale:</strong>
@@ -322,6 +329,14 @@ export default {
               </div>
               <div class="modal-footer">
                 <button
+                  type="button"
+                  class="btn btn-dark"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Chiudi
+                </button>
+                <button
                   @click="store.emptyCart()"
                   data-bs-dismiss="modal"
                   type="button"
@@ -375,7 +390,7 @@ export default {
     border: none;
     border-radius: 10px;
     color: white;
-    background-color: red;
+    background-color: rgb(255, 153, 0);
     transition: all 0.2s ease;
     position: absolute;
     top: -20px;
@@ -383,7 +398,7 @@ export default {
     transform: translate(-50%, 0);
 
     &:hover {
-      background-color: orange;
+      background-color: rgb(255, 196, 0);
       color: white;
       transform: translate(-50%, 0);
     }
